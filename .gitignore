@@ -27,3 +27,9 @@ hs_err_pid*
 
 # Ignore Gradle build output directory
 build
+
+# Keep jar dependencies
+!app/libs/*/*.jar
+
+# vscode config
+.vscode/
