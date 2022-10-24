@@ -18,7 +18,7 @@ repositories {
 
 version="0.1.0"
 group = 'com.ergenor.universim-launcher' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'universim-launcher'
+archivesBaseName = 'universim.launcher'
 
 dependencies {
     // Use JUnit Jupiter for testing.
@@ -27,12 +27,12 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'fr.flowarg:openlauncherlib:3.2.5'
+    implementation files('app/libs/openlauncherlib-3.2.5.jar')
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'universim-launcher.Launcher'
+    mainClass = 'universim.launcher.Launcher'
 }
 
 tasks.named('test') {
