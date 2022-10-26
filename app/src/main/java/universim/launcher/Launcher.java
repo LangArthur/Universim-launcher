@@ -22,7 +22,7 @@ public class Launcher extends Application {
         playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override  
             public void handle(ActionEvent arg0) {
-                System.out.println(m_launcherData.getLauncherTitle());
+                playCallBack();
             }
         });
         StackPane root = new StackPane(
@@ -33,6 +33,10 @@ public class Launcher extends Application {
         stage.setTitle(m_launcherData.getLauncherTitle());
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void playCallBack() {
+        System.out.println(m_launcherData.getLauncherTitle());
     }
 
     public static void main(String[] args) {
