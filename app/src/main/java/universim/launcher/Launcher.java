@@ -15,13 +15,13 @@ import universim.launcher.ui.MainPage;
 
 public class Launcher extends Application {
 
-    enum Pages {
+    enum SceneType {
         MAIN
     }
 
     private LauncherData m_launcherData = new LauncherData();
-    private EnumMap<Pages, IPage> m_pages = new EnumMap<Pages, IPage>(Pages.class);
-    private Pages m_currentPage = Pages.MAIN;
+    private EnumMap<SceneType, IPage> m_pages = new EnumMap<SceneType, IPage>(SceneType.class);
+    private SceneType m_currentPage = SceneType.MAIN;
 
     @Override
     public void start(Stage stage) {
@@ -32,7 +32,7 @@ public class Launcher extends Application {
                 playCallBack();
             }
         });
-        m_pages.put(Pages.MAIN, mainPage);
+        m_pages.put(SceneType.MAIN, mainPage);
         if (m_pages.containsKey(m_currentPage)) {
             Scene scene = m_pages.get(m_currentPage).getScene();
             stage.setTitle(m_launcherData.getLauncherTitle());
@@ -45,6 +45,14 @@ public class Launcher extends Application {
 
     private void playCallBack() {
         System.out.println(m_launcherData.getLauncherTitle());
+    }
+
+    private void updatePage(SceneType newPage) {
+        if (m_currentPage != newPage) {
+            m_currentPage = newPage;
+            Scene scene = m_pages.get(m_currentPage).getScene();
+            
+        }
     }
 
     public static void main(String[] args) {
