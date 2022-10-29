@@ -4,13 +4,13 @@ import universim.launcher.ui.IPage;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class MainPage implements IPage {
@@ -19,11 +19,18 @@ public class MainPage implements IPage {
     private StackPane m_root;
     private TextField m_userName;
     private TextField m_pwd;
+    private Scene m_scene;
 
     private double m_width = 640;
     private double m_height = 480;
 
     public MainPage() {
+        // try {
+        //     Parent root = FXMLLoader.load(getClass().getResource("fxml_example.fxml"));
+        //     m_scene = new Scene(root, 300, 275);
+        // } catch (Exception e) {
+        //     // TODO: handle exception
+        // }
         GridPane credentialsGrid = new GridPane();
         credentialsGrid.setPadding(new Insets(10, 5, 10, 5));
         credentialsGrid.setVgap(5);
@@ -42,10 +49,11 @@ public class MainPage implements IPage {
         m_root = new StackPane(
             credentialsGrid
         );
+        m_scene = new Scene(m_root, m_width, m_height);
     }
 
     public Scene getScene() {
-        return new Scene(m_root, m_width, m_height);
+        return m_scene;
     }
 
     public void setCallBack(String callBackName, EventHandler<ActionEvent> callBack) {
