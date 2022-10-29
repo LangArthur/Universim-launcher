@@ -1,6 +1,10 @@
 package universim.launcher.ui;
 
 import universim.launcher.ui.IPage;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,9 +29,10 @@ public class MainPage extends APage {
 
     public MainPage() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("xml/login.xml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/xml/login.xml"));
             m_scene = new Scene(root, 300, 275);
         } catch (Exception e) {
+            System.err.println("Error: " + e);
             // TODO: handle exception
         }
         GridPane credentialsGrid = new GridPane();
@@ -48,7 +53,7 @@ public class MainPage extends APage {
         m_root = new StackPane(
             credentialsGrid
         );
-        m_scene = new Scene(m_root, m_width, m_height);
+        // m_scene = new Scene(m_root, m_width, m_height);
     }
 
     public Scene getScene() {
