@@ -13,24 +13,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-public class MainPage implements IPage {
+public class MainPage extends APage {
 
     private Button m_playButton;
     private StackPane m_root;
     private TextField m_userName;
     private TextField m_pwd;
-    private Scene m_scene;
 
     private double m_width = 640;
     private double m_height = 480;
 
     public MainPage() {
-        // try {
-        //     Parent root = FXMLLoader.load(getClass().getResource("fxml_example.fxml"));
-        //     m_scene = new Scene(root, 300, 275);
-        // } catch (Exception e) {
-        //     // TODO: handle exception
-        // }
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("xml/login.xml"));
+            m_scene = new Scene(root, 300, 275);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
         GridPane credentialsGrid = new GridPane();
         credentialsGrid.setPadding(new Insets(10, 5, 10, 5));
         credentialsGrid.setVgap(5);

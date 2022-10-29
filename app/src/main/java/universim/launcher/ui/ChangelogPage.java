@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
-public class ChangelogPage implements IPage {
+public class ChangelogPage extends APage {
     private Label m_label;
     private StackPane m_root;
     private Button m_backButton;
