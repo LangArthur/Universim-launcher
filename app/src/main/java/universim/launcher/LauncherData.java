@@ -11,4 +11,9 @@ public class LauncherData {
     public String getLauncherTitle() {
         return m_serverName + " launcher " + m_version;
     }
+
+    public Boolean login() {
+        System.out.println("Logging !");
+        return true;
+    }
 }
