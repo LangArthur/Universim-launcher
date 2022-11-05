@@ -1,22 +1,17 @@
 package universim.launcher.ui;
 
-import universim.launcher.ui.IPage;
+import java.util.Set;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 public class MainPage extends APage {
 
@@ -24,6 +19,7 @@ public class MainPage extends APage {
     private Parent m_root;
     private TextField m_userName;
     private PasswordField m_pwd;
+    private Text m_loginInfo;
 
     private double m_width = 640;
     private double m_height = 480;
@@ -49,9 +45,18 @@ public class MainPage extends APage {
         }
     }
 
+    public Pair<String, String> getCredentials() {
+        return new Pair<String,String>(m_userName.getText(), m_pwd.getText());
+    }
+
+    public void setInfoMessage(String msg) {
+        m_loginInfo.setText(msg);
+    }
+
     private void storeUiElements() {
         m_userName = (TextField) m_root.lookup("#username");
         m_pwd = (PasswordField) m_root.lookup("#password");
         m_playButton = (Button) m_root.lookup("#launch");
+        m_loginInfo = (Text) m_root.lookup("#login_info");
     }
 }

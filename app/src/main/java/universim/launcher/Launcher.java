@@ -1,9 +1,13 @@
 package universim.launcher;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import universim.launcher.SceneController.SceneType;
 import universim.launcher.ui.ChangelogPage;
 import universim.launcher.ui.MainPage;
@@ -11,6 +15,8 @@ import universim.launcher.ui.MainPage;
 public class Launcher extends Application {
     private LauncherData m_launcherData = new LauncherData();
     private SceneController m_sceneController;
+
+    public static final Logger logger = LogManager.getLogger("Launcher");
 
     @Override
     public void start(Stage stage) {
@@ -37,11 +43,21 @@ public class Launcher extends Application {
     }
 
     private void playCallBack() {
-        m_sceneController.changeScene(SceneType.CHANGELOG);
-        // System.out.println(m_launcherData.getLauncherTitle());
+        // m_sceneController.changeScene(SceneType.CHANGELOG);
+        MainPage loginScene = (MainPage) m_sceneController.getCurrentScene();
+        Pair<String, String> credentials = loginScene.getCredentials();
+        if (!m_launcherData.login(credentials.getKey(), credentials.getValue())) {
+            loginScene.setInfoMessage(m_launcherData.getError());
+            return;
+        }
+        loginScene.setInfoMessage("Authentification reussie");
+        m_launcherData.launch();
     }
 
     public static void main(String[] args) {
+        // logger gestion
+        // System.setProperty("launcherlog.txt","./launcherlog.txt");
         launch(args);
+
     }
 }

@@ -44,4 +44,20 @@ public class SceneController {
             System.err.println("No main scene register");
         }
     }
+
+    public IPage getScene(SceneType type) {
+        if (m_screenMap.containsKey(type)) {
+            return m_screenMap.get(type);
+        } else {
+            return null;
+        }
+    }
+
+    public IPage getCurrentScene() {
+        if (m_screenMap.containsKey(m_currentPage)) {
+            return m_screenMap.get(m_currentPage);
+        } else {
+            return null;
+        }
+    }
 }
