@@ -1,11 +1,8 @@
 package universim.launcher;
 
-import fr.litarvan.openauth.AuthPoints;
-import fr.litarvan.openauth.Authenticator;
+import fr.flowarg.openlauncherlib.NewForgeVersionDiscriminator;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
-import fr.litarvan.openauth.model.AuthAgent;
-import fr.litarvan.openauth.model.response.AuthResponse;
 import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
 import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
@@ -45,17 +42,19 @@ public class GameSession {
     }
 
     public void launch() {
-        GameInfos infos = new GameInfos(
-            m_serverName,
-            new GameVersion(m_serverVersion, GameType.V1_13_HIGHER_FORGE),
-            new GameTweak[] {GameTweak.OPTIFINE});
+        GameType gameType = GameType.V1_13_HIGHER_FORGE;
         try {
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.BASIC, m_authInfos);
+            gameType.setNFVD(new NewForgeVersionDiscriminator(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_serverVersion, FilesManager.FORGE_VERSION));
+            GameInfos infos = new GameInfos(
+                m_serverName,
+                new GameVersion(m_serverVersion, GameType.V1_13_HIGHER_FORGE),
+                new GameTweak[] {});
+            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, m_authInfos);
             ExternalLauncher launcher = new ExternalLauncher(profile);
     
             launcher.launch();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

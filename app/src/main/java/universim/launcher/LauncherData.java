@@ -10,6 +10,7 @@ public class LauncherData {
     private String m_serverVersion = "1.16.5";
     private String m_version = "0.1.0";
     private GameSession m_session = new GameSession(m_serverName, m_serverVersion);
+    private FilesManager m_filesManager = new FilesManager(m_serverVersion);
     private LinkedList<String> m_errorQUeue = new LinkedList<String>();
 
     public String getLauncherTitle() {
@@ -29,6 +30,8 @@ public class LauncherData {
     }
 
     public void launch() {
+        System.out.println("checking update ...");
+        m_filesManager.checkUpdate();
         m_session.launch();
     }
 
