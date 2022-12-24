@@ -1,0 +1,13 @@
+.form-box {
+    -fx-background-color: rgba(255, 255, 255, 0.625);
+    -fx-padding: 25, 25, 50, 50;
+    -fx-border-radius: 25px;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-accent, -7%), derive(-fx-accent, 0%), derive(-fx-accent, -3%), derive(-fx-accent, -9%) );
+    -fx-background-insets: 3 3 4 3;
+    /*-fx-background-radius: 0.583em; *//* 7 */
+    -fx-background-radius: 2;
+    -fx-padding: 0.35em;
+}

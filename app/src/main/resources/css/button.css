@@ -1,0 +1,21 @@
+.rounded-button {
+    -fx-background-color: rgba(51, 51, 51, 0.5);
+    -fx-border-radius: 8px;
+    -fx-border-width: 0;
+    -fx-color: #333333;
+    -fx-cursor: pointer;
+    -fx-display: inline-block;
+    -fx-font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-line-height: 20px;
+    -fx-list-style: none;
+    -fx-margin: 0;
+    -fx-padding: 10px 12px;
+    -fx-text-align: center;
+    -fx-transition: all 200ms;
+    -fx-vertical-align: baseline;
+    -fx-white-space: nowrap;
+    -fx-user-select: none;
+    -fx-touch-action: manipulation;
+}

@@ -1,6 +1,5 @@
 package universim.launcher.ui;
 
-import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,8 +20,8 @@ public class MainPage extends APage {
     private PasswordField m_pwd;
     private Text m_loginInfo;
 
-    private double m_width = 640;
-    private double m_height = 480;
+    private double m_width = 960;
+    private double m_height = 720;
 
     public MainPage() {
         try {
@@ -33,6 +32,10 @@ public class MainPage extends APage {
         }
         storeUiElements();
         m_scene = new Scene(m_root, m_width, m_height);
+        String buttonCss = getClass().getResource("/css/button.css").toExternalForm();
+        String panelCss = getClass().getResource("/css/panel.css").toExternalForm();
+        String commonCss = getClass().getResource("/css/common.css").toExternalForm();
+        m_scene.getStylesheets().addAll(buttonCss, panelCss, commonCss);
     }
 
     public Scene getScene() {
