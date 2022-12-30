@@ -9,31 +9,37 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 
-<GridPane styleClass="bg-pane" id="GridPane" prefHeight="960" prefWidth="720" xmlns:fx="http://javafx.com/fxml" alignment="center" gridLinesVisible="false" vgap="20">
-    <ImageView id="logo" GridPane.rowIndex="0" GridPane.halignment="CENTER" fitHeight="160.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-          <Image url="@/images/logo.png"/>
-        </image>
-    </ImageView>
-    <VBox styleClass="form-box" prefHeight="160.0" prefWidth="320.0" spacing="7" GridPane.rowIndex="1">
-        <TextField id="username" promptText="Identifiant">
-            <tooltip>
-                <Tooltip text="Votre pseudo Minecraft ou l'email de votre compte Microsoft." />
-             </tooltip> 
-        </TextField>
-        <PasswordField id="password" promptText="Mot de passe">
-            <tooltip>
-                <Tooltip text="Votre mot de passe." />
-             </tooltip> 
-        </PasswordField>
-        <HBox spacing="5" alignment="TOP_RIGHT">
-            <Label>Se souvenir de moi</Label>
-            <CheckBox></CheckBox>
-        </HBox>
-        <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Jouer !" />
-    </VBox>
-    <!-- <VBox GridPane.rowIndex="2" prefWidth="320.0">
-        <ProgressBar styleClass="progress-bar" prefWidth="320.0"></ProgressBar>
-        <Text id="login_info">Lorem ipsum</Text>
-    </VBox> -->
-</GridPane>
+<BorderPane xmlns:fx="http://javafx.com/fxml">
+    <center>
+        <GridPane styleClass="bg-pane" id="GridPane" prefHeight="960" prefWidth="720" alignment="center" gridLinesVisible="true" vgap="20">
+            <ImageView id="logo" GridPane.rowIndex="0" GridPane.halignment="CENTER" fitHeight="160.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                  <Image url="@/images/logo.png"/>
+                </image>
+            </ImageView>
+            <VBox styleClass="form-box" prefHeight="160.0" prefWidth="320.0" spacing="7" GridPane.rowIndex="1">
+                <TextField id="username" promptText="Identifiant">
+                    <tooltip>
+                        <Tooltip text="Votre pseudo Minecraft ou l'email de votre compte Microsoft." />
+                     </tooltip> 
+                </TextField>
+                <PasswordField id="password" promptText="Mot de passe">
+                    <tooltip>
+                        <Tooltip text="Votre mot de passe." />
+                     </tooltip> 
+                </PasswordField>
+                <HBox spacing="5" alignment="TOP_RIGHT">
+                    <Label>Se souvenir de moi</Label>
+                    <CheckBox></CheckBox>
+                </HBox>
+                <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Jouer !" />
+            </VBox>
+        </GridPane>
+    </center>
+    <bottom>
+        <VBox id="footer" fillWidth="true">
+            <Text id="login_info" strokeType="INSIDE" strokeWidth="5">Lorem ipsum</Text>
+            <ProgressBar styleClass="progress-bar"></ProgressBar>
+        </VBox>
+    </bottom>
+</BorderPane>
