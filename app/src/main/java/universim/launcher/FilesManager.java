@@ -1,5 +1,6 @@
 package universim.launcher;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -19,13 +20,24 @@ import fr.flowarg.flowupdater.versions.VanillaVersion.VanillaVersionBuilder;
  */
 public class FilesManager {
     private String m_version;
-
+    private File m_settings;
+    
+    // TODO: encapsulate this correctly
     public static String FORGE_VERSION = "36.2.34";
     public static String OPTIFINE_VERSION = "1.16.5_HD_U_G8";
     public static String FOLDER_NAME = ".universim";
+    public static String SETTING_FILE_NAME = "optionsLauncher.txt";
 
     public FilesManager(String version) {
         m_version = version;
+        // create launcher folder
+        try {
+            new File(getGameDir(FOLDER_NAME).toString()).mkdirs();
+            m_settings = new File(Paths.get(getGameDir(FOLDER_NAME).toString(), "/", SETTING_FILE_NAME).toString());
+            m_settings.createNewFile();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
     public static Path getGameDir(String folderName) {

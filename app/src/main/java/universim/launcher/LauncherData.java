@@ -1,7 +1,5 @@
 package universim.launcher;
 
-import java.util.LinkedList;
-
 /**
  * "back" of the launcher
  */
@@ -11,31 +9,23 @@ public class LauncherData {
     private String m_version = "0.1.0";
     private GameSession m_session = new GameSession(m_serverName, m_serverVersion);
     private FilesManager m_filesManager = new FilesManager(m_serverVersion);
-    private LinkedList<String> m_errorQUeue = new LinkedList<String>();
 
     public String getLauncherTitle() {
         return m_serverName + " launcher " + m_version;
     }
 
-    public Boolean login(String username, String pwd) {
+    public void login(String username, String pwd) {
         if (username.length() == 0 || pwd.length() == 0) {
-            m_errorQUeue.push("Remplissez les deux champs");
-            return false;
+            throw new RuntimeException("Remplissez les deux champs");
         }
         if (!m_session.auth(username, pwd)) {
-            m_errorQUeue.push("Impossible de s'authentifiez, verifiez vos identifiants.");
-            return false;
+            throw new RuntimeException("Impossible de s'authentifiez, verifiez vos identifiants.");
         }
-        return true;
     }
 
-    public void launch() {
+    public void launch(int ramValue) {
         System.out.println("checking update ...");
         m_filesManager.checkUpdate();
-        m_session.launch();
-    }
-
-    public String getError() {
-        return m_errorQUeue.pop();
+        m_session.launch(ramValue);
     }
 }

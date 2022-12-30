@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import universim.launcher.Launcher;
 
 public class ChangelogPage extends APage {
     private Label m_label;
@@ -16,7 +17,8 @@ public class ChangelogPage extends APage {
     private double m_width = 640;
     private double m_height = 480;
 
-    public ChangelogPage() {
+    public ChangelogPage(Launcher launcher) {
+        super(launcher);
         m_label = new Label("Changelog page");
         m_backButton = new Button("retour");
         m_root = new StackPane(

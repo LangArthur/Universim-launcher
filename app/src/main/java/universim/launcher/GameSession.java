@@ -1,5 +1,7 @@
 package universim.launcher;
 
+import java.util.List;
+
 import fr.flowarg.openlauncherlib.NewForgeVersionDiscriminator;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
@@ -41,7 +43,7 @@ public class GameSession {
         return true;
     }
 
-    public void launch() {
+    public void launch(int ramValue) {
         GameType gameType = GameType.V1_13_HIGHER_FORGE;
         try {
             gameType.setNFVD(new NewForgeVersionDiscriminator(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_serverVersion, FilesManager.FORGE_VERSION));
@@ -50,11 +52,25 @@ public class GameSession {
                 new GameVersion(m_serverVersion, GameType.V1_13_HIGHER_FORGE),
                 new GameTweak[] {});
             ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, m_authInfos);
+            List<String> params = profile.getVmArgs();
+            params.add(formatRamArgument(ramValue));
+            profile.setVmArgs(params);
             ExternalLauncher launcher = new ExternalLauncher(profile);
     
             launcher.launch();
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
+    }
+
+    private String formatRamArgument(int ramValue) {
+        return "-Xmx" + String.valueOf(ramValue) + "G";
+    }
+
+    public static String[] getRamValue() {
+        long memory = Runtime.getRuntime().maxMemory();
+        System.out.println(memory);
+        return new String[] { "1", "2", "4", "8", "16" };
+        // long memorySize = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize();
     }
 }
