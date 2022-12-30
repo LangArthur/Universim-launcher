@@ -36,7 +36,6 @@ public class GameSession {
             MicrosoftAuthResult rep = authenticator.loginWithCredentials(username, pwd);
             m_authInfos = new AuthInfos(rep.getProfile().getName(), rep.getAccessToken(), rep.getProfile().getId());
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             return false;
         }
         m_isAuth = true;
@@ -59,7 +58,7 @@ public class GameSession {
     
             launcher.launch();
         } catch (Exception e) {
-            System.err.println("Error: " + e.getMessage());
+            ErrorManager.errorMessage(e.getMessage());
         }
     }
 
@@ -68,9 +67,6 @@ public class GameSession {
     }
 
     public static String[] getRamValue() {
-        long memory = Runtime.getRuntime().maxMemory();
-        System.out.println(memory);
         return new String[] { "1", "2", "4", "8", "16" };
-        // long memorySize = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getTotalPhysicalMemorySize();
     }
 }

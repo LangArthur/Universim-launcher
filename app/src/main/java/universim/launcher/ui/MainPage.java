@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
+import universim.launcher.ErrorManager;
 import universim.launcher.GameSession;
 import universim.launcher.Launcher;
 
@@ -35,8 +36,8 @@ public class MainPage extends APage {
         try {
             m_root = FXMLLoader.load(getClass().getResource("/xml/login.xml"));
         } catch (Exception e) {
-            System.err.println("Error: " + e);
-            // TODO: handle exception
+            ErrorManager.errorMessage("Impossible de charger la scene.");
+            return;
         }
         storeUiElements();
         registerCallBacks();

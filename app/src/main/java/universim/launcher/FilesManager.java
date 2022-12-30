@@ -14,13 +14,14 @@ import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.flowarg.flowupdater.versions.VanillaVersion.VanillaVersionBuilder;
+import fr.theshark34.openlauncherlib.util.Saver;
 
 /*
  * manage files on client's disk.
  */
 public class FilesManager {
     private String m_version;
-    private File m_settings;
+    public Saver saver;
     
     // TODO: encapsulate this correctly
     public static String FORGE_VERSION = "36.2.34";
@@ -33,8 +34,7 @@ public class FilesManager {
         // create launcher folder
         try {
             new File(getGameDir(FOLDER_NAME).toString()).mkdirs();
-            m_settings = new File(Paths.get(getGameDir(FOLDER_NAME).toString(), "/", SETTING_FILE_NAME).toString());
-            m_settings.createNewFile();
+            saver = new Saver(Paths.get(getGameDir(FOLDER_NAME).toString(), "/", SETTING_FILE_NAME));
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -68,7 +68,7 @@ public class FilesManager {
         try {
             updater.update(getGameDir(FOLDER_NAME));
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            ErrorManager.errorMessage(e.getMessage());
             return false;
         }
         return true;
