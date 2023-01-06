@@ -1,11 +1,15 @@
 package universim.launcher;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.FlowUpdater.FlowUpdaterBuilder;
+import fr.flowarg.flowupdater.download.DownloadList;
+import fr.flowarg.flowupdater.download.IProgressCallback;
 import fr.flowarg.flowupdater.download.json.OptiFineInfo;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
@@ -20,7 +24,7 @@ import fr.theshark34.openlauncherlib.util.Saver;
  * manage files on client's disk.
  */
 public class FilesManager {
-    private String m_version;
+    private Launcher m_launcher;
     public Saver saver;
     
     // TODO: encapsulate this correctly
@@ -29,8 +33,7 @@ public class FilesManager {
     public static String FOLDER_NAME = ".universim";
     public static String SETTING_FILE_NAME = "optionsLauncher.txt";
 
-    public FilesManager(String version) {
-        m_version = version;
+    public FilesManager(Launcher launcher) {
         // create launcher folder
         try {
             new File(getGameDir(FOLDER_NAME).toString()).mkdirs();
@@ -38,6 +41,7 @@ public class FilesManager {
         } catch (Exception e) {
             System.err.println(e);
         }
+        m_launcher = launcher;
     }
 
     public static Path getGameDir(String folderName) {
@@ -52,16 +56,26 @@ public class FilesManager {
     }
 
     public boolean checkUpdate() {
-        VanillaVersion version = new VanillaVersionBuilder().withName(m_version).build();
+        VanillaVersion version = new VanillaVersionBuilder().withName(m_launcher.gameVersion()).build();
         UpdaterOptions options = new UpdaterOptionsBuilder().build();
         AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
-        .withForgeVersion(FORGE_VERSION)
-        .withOptiFine(new OptiFineInfo(OPTIFINE_VERSION))
-        .build();
+            .withForgeVersion(FORGE_VERSION)
+            .withOptiFine(new OptiFineInfo(OPTIFINE_VERSION))
+            .build();
         FlowUpdater updater = new FlowUpdaterBuilder()
             .withVanillaVersion(version)
             .withUpdaterOptions(options)
             .withModLoaderVersion(forgeVersion)
+            .withProgressCallback(new IProgressCallback() {
+                @Override
+                public void update(DownloadList.DownloadInfo info) {
+                    float percent = BigDecimal
+                        .valueOf((info.getTotalToDownloadFiles() / info.getTotalToDownloadFiles()))
+                        .setScale(1, RoundingMode.HALF_UP)
+                        .floatValue();
+                    m_launcher.setProgressBar(percent);
+                }
+            })
             .build();
         // TODO: add custom logger here
 

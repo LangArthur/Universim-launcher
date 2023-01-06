@@ -11,10 +11,10 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml">
     <center>
-        <GridPane styleClass="bg-pane" id="GridPane" prefHeight="960" prefWidth="720" alignment="center" gridLinesVisible="true" vgap="20">
+        <GridPane styleClass="bg-pane" id="GridPane" prefHeight="960" prefWidth="720" alignment="center" gridLinesVisible="false" vgap="20">
             <ImageView id="logo" GridPane.rowIndex="0" GridPane.halignment="CENTER" fitHeight="160.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true">
                 <image>
-                  <Image url="@/images/logo.png"/>
+                  <Image url="@/images/universim_rounded_logo.png"/>
                 </image>
             </ImageView>
             <VBox styleClass="form-box" prefHeight="160.0" prefWidth="320.0" spacing="7" GridPane.rowIndex="1">
@@ -41,8 +41,10 @@
     </center>
     <bottom>
         <VBox id="footer" fillWidth="true">
-            <Text id="login_info" strokeType="INSIDE" strokeWidth="5">Lorem ipsum</Text>
-            <ProgressBar styleClass="progress-bar"></ProgressBar>
+            <VBox styleClass="padded-container">
+                <Text id="login-info"></Text>
+            </VBox>
+            <ProgressBar id="launching-status-bar" prefWidth="1920" styleClass="progress-bar"></ProgressBar>
         </VBox>
     </bottom>
 </BorderPane>

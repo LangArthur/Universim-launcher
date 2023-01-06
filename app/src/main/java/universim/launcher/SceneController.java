@@ -60,4 +60,12 @@ public class SceneController {
             return null;
         }
     }
+
+    public void quit() {
+        javafx.application.Platform.runLater(new Runnable() {
+            public void run() {
+                m_stage.close();
+            }
+        });
+    }
 }

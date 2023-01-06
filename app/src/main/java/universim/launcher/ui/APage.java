@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import universim.launcher.Launcher;
 
 public abstract class APage implements IPage {
+    public boolean m_isCorrectlyInit = false;
+
     protected Parent m_layout;
     protected Scene m_scene;
     protected Launcher m_launcher;

@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -26,6 +27,7 @@ public class MainPage extends APage {
     private PasswordField m_pwd;
     private Text m_loginInfo;
     private ComboBox<String> m_ramSelector;
+    private ProgressBar m_progressBar;
     private int m_ram = 1;
 
     private double m_width = 960;
@@ -37,8 +39,8 @@ public class MainPage extends APage {
             m_root = FXMLLoader.load(getClass().getResource("/xml/login.xml"));
         } catch (Exception e) {
             ErrorManager.errorMessage("Impossible de charger la scene.");
-            return;
         }
+        m_isCorrectlyInit = true;
         storeUiElements();
         registerCallBacks();
         m_scene = new Scene(m_root, m_width, m_height);
@@ -64,7 +66,12 @@ public class MainPage extends APage {
         m_playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                playCallBack();
+                Thread t = new Thread(() -> {
+                    System.out.println("run");
+                    playCallBack();
+                    System.out.println("run");
+                });
+                t.start();
             }
         });
         m_ramSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -85,17 +92,24 @@ public class MainPage extends APage {
         }
         if (login) {
             setInfoMessage("Authentification reussie");
+            System.out.println("launch");
+            m_launcher.launch(m_ram);
         }
-        m_launcher.launch(m_ram);
     }
 
     private void storeUiElements() {
         m_userName = (TextField) m_root.lookup("#username");
         m_pwd = (PasswordField) m_root.lookup("#password");
         m_playButton = (Button) m_root.lookup("#launch");
-        m_loginInfo = (Text) m_root.lookup("#login_info");
+        m_loginInfo = (Text) m_root.lookup("#login-info");
         m_ramSelector = (ComboBox<String>) m_root.lookup("#ram-selector");
         m_ramSelector.getItems().setAll(GameSession.getRamValue());
         m_ramSelector.setValue("1");
+        m_progressBar = (ProgressBar) m_root.lookup("#launching-status-bar");
+        m_progressBar.setProgress(0);
+    }
+
+    public void setProgress(float progress) {
+        m_progressBar.setProgress(progress);
     }
 }
