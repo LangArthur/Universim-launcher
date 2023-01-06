@@ -10,6 +10,7 @@ import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.FlowUpdater.FlowUpdaterBuilder;
 import fr.flowarg.flowupdater.download.DownloadList;
 import fr.flowarg.flowupdater.download.IProgressCallback;
+import fr.flowarg.flowupdater.download.Step;
 import fr.flowarg.flowupdater.download.json.OptiFineInfo;
 import fr.flowarg.flowupdater.utils.ModFileDeleter;
 import fr.flowarg.flowupdater.utils.UpdaterOptions;
@@ -69,11 +70,17 @@ public class FilesManager {
             .withProgressCallback(new IProgressCallback() {
                 @Override
                 public void update(DownloadList.DownloadInfo info) {
+                    m_launcher.setMessage("Téléchargement des fichiers de jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
                     float percent = BigDecimal
-                        .valueOf((info.getTotalToDownloadFiles() / info.getTotalToDownloadFiles()))
-                        .setScale(1, RoundingMode.HALF_UP)
+                        .valueOf(((float)info.getDownloadedFiles() / (float)info.getTotalToDownloadFiles()))
+                        .setScale(2, RoundingMode.HALF_UP)
                         .floatValue();
                     m_launcher.setProgressBar(percent);
+                }
+
+                @Override
+                public void step(Step step) {
+
                 }
             })
             .build();
