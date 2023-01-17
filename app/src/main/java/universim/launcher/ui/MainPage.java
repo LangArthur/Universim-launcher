@@ -3,6 +3,7 @@ package universim.launcher.ui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -62,16 +63,30 @@ public class MainPage extends APage {
         m_loginInfo.setText(msg);
     }
 
+    public void setProgress(float progress) {
+        m_progressBar.setProgress(progress);
+    }
+
+    public void bindMessage(ObservableValue<? extends String> observable) {
+        m_loginInfo.textProperty().bind(observable);
+    }
+
+    public void unbindMessage() {
+        m_loginInfo.textProperty().unbind();
+    }
+
     private void registerCallBacks() {
         m_playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                Thread t = new Thread(() -> {
-                    System.out.println("run");
-                    playCallBack();
-                    System.out.println("run");
-                });
-                t.start();
+                Task<Void> launchTask = new Task<Void>() {
+                    @Override public Void call() throws InterruptedException {
+                        playCallBack();
+                        return null;
+                    }
+                };
+                Thread launchThread = new Thread(launchTask);
+                launchThread.start();
             }
         });
         m_ramSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -82,6 +97,7 @@ public class MainPage extends APage {
     }
 
     private void playCallBack() {
+        setInfoMessage("Authentification en cours ...");
         Pair<String, String> credentials = getCredentials();
         boolean login = false;
         try {
@@ -92,7 +108,6 @@ public class MainPage extends APage {
         }
         if (login) {
             setInfoMessage("Authentification reussie");
-            System.out.println("launch");
             m_launcher.launch(m_ram);
         }
     }
@@ -107,9 +122,5 @@ public class MainPage extends APage {
         m_ramSelector.setValue("1");
         m_progressBar = (ProgressBar) m_root.lookup("#launching-status-bar");
         m_progressBar.setProgress(0);
-    }
-
-    public void setProgress(float progress) {
-        m_progressBar.setProgress(progress);
     }
 }

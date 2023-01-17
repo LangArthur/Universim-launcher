@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -50,6 +51,7 @@ public class Launcher extends Application {
     }
 
     public void launch(int ramValue) {
+
         ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Véfification des fichiers locaux ...");
         if (!m_filesManager.checkUpdate()) {
             ErrorManager.errorMessage("Impossible de vérifier l'integrité des fichiers locaux.");
@@ -76,11 +78,7 @@ public class Launcher extends Application {
     }
 
     public void setMessage(String msg) {
-        javafx.application.Platform.runLater(new Runnable() {
-            public void run() {
-                ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage(msg);
-            }
-        });
+        ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage(msg);
     }
 
     public void setProgressBar(float progress) {

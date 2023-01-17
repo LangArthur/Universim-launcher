@@ -70,7 +70,7 @@ public class FilesManager {
             .withProgressCallback(new IProgressCallback() {
                 @Override
                 public void update(DownloadList.DownloadInfo info) {
-                    m_launcher.setMessage("Téléchargement des fichiers de jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
+                    // m_launcher.setMessage("Téléchargement des assets du jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
                     float percent = BigDecimal
                         .valueOf(((float)info.getDownloadedFiles() / (float)info.getTotalToDownloadFiles()))
                         .setScale(2, RoundingMode.HALF_UP)
@@ -80,7 +80,29 @@ public class FilesManager {
 
                 @Override
                 public void step(Step step) {
-
+                    switch (step) {
+                        case READ:
+                            m_launcher.setMessage("Lecture de la configuration");
+                            break;
+                        case DL_LIBS:
+                            m_launcher.setMessage("Téléchargement des librairies");
+                        case DL_ASSETS:
+                            m_launcher.setMessage("Téléchargement des assets du jeu");
+                        case EXTRACT_NATIVES:
+                            m_launcher.setMessage("Extraction des fichiers");
+                        case MOD_LOADER:
+                            m_launcher.setMessage("Téléchargement du mod loader");
+                        case MODS:
+                            m_launcher.setMessage("Téléchargement des mods");
+                        case EXTERNAL_FILES:
+                            m_launcher.setMessage("Téléchargement de fichiers externes");
+                        case POST_EXECUTIONS:
+                            m_launcher.setMessage("Vérification");
+                        case END:
+                            m_launcher.setMessage("Installation terminée");
+                        default:
+                            break;
+                    }
                 }
             })
             .build();
