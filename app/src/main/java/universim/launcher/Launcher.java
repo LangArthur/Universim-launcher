@@ -52,9 +52,9 @@ public class Launcher extends Application {
 
     public void launch(int ramValue) {
 
-        ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Véfification des fichiers locaux ...");
+        ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Verification des fichiers locaux ...");
         if (!m_filesManager.checkUpdate()) {
-            ErrorManager.errorMessage("Impossible de vérifier l'integrité des fichiers locaux.");
+            ErrorManager.errorMessage("Impossible de verifier l'integrite des fichiers locaux.");
             ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("");
             return;
         }

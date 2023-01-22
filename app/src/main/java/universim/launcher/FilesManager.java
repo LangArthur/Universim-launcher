@@ -70,7 +70,7 @@ public class FilesManager {
             .withProgressCallback(new IProgressCallback() {
                 @Override
                 public void update(DownloadList.DownloadInfo info) {
-                    m_launcher.setMessage("Téléchargement des assets du jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
+                    m_launcher.setMessage("Telechargement des assets du jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
                     float percent = BigDecimal
                         .valueOf(((float)info.getDownloadedFiles() / (float)info.getTotalToDownloadFiles()))
                         .setScale(2, RoundingMode.HALF_UP)
@@ -85,17 +85,17 @@ public class FilesManager {
                             m_launcher.setMessage("Lecture de la configuration");
                             break;
                         case DL_LIBS:
-                            m_launcher.setMessage("Téléchargement des librairies");
+                            m_launcher.setMessage("Telechargement des librairies");
                         case DL_ASSETS:
-                            m_launcher.setMessage("Téléchargement des assets du jeu");
+                            m_launcher.setMessage("Telechargement des assets du jeu");
                         case EXTRACT_NATIVES:
                             m_launcher.setMessage("Extraction des fichiers");
                         case MOD_LOADER:
-                            m_launcher.setMessage("Téléchargement du mod loader");
+                            m_launcher.setMessage("Telechargement du mod loader");
                         case MODS:
-                            m_launcher.setMessage("Téléchargement des mods");
+                            m_launcher.setMessage("Telechargement des mods");
                         case EXTERNAL_FILES:
-                            m_launcher.setMessage("Téléchargement de fichiers externes");
+                            m_launcher.setMessage("Telechargement de fichiers externes");
                         default:
                             break;
                     }
@@ -108,7 +108,7 @@ public class FilesManager {
             ErrorManager.errorMessage(e.getMessage());
             return false;
         }
-        m_launcher.setMessage("Installation terminée avec succès !");
+        m_launcher.setMessage("Installation terminee avec succes !");
         return true;
     }
 }
