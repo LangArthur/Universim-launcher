@@ -78,7 +78,11 @@ public class Launcher extends Application {
     }
 
     public void setMessage(String msg) {
-        ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage(msg);
+        javafx.application.Platform.runLater(new Runnable() {
+            public void run() {
+                ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage(msg);
+            }
+        });
     }
 
     public void setProgressBar(float progress) {

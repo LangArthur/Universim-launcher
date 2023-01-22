@@ -70,7 +70,7 @@ public class FilesManager {
             .withProgressCallback(new IProgressCallback() {
                 @Override
                 public void update(DownloadList.DownloadInfo info) {
-                    // m_launcher.setMessage("Téléchargement des assets du jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
+                    m_launcher.setMessage("Téléchargement des assets du jeu : [" + info.getDownloadedFiles() + '/' + info.getTotalToDownloadFiles() + ']');
                     float percent = BigDecimal
                         .valueOf(((float)info.getDownloadedFiles() / (float)info.getTotalToDownloadFiles()))
                         .setScale(2, RoundingMode.HALF_UP)
@@ -96,24 +96,19 @@ public class FilesManager {
                             m_launcher.setMessage("Téléchargement des mods");
                         case EXTERNAL_FILES:
                             m_launcher.setMessage("Téléchargement de fichiers externes");
-                        case POST_EXECUTIONS:
-                            m_launcher.setMessage("Vérification");
-                        case END:
-                            m_launcher.setMessage("Installation terminée");
                         default:
                             break;
                     }
                 }
             })
             .build();
-        // TODO: add custom logger here
-
         try {
             updater.update(getGameDir(FOLDER_NAME));
         } catch (Exception e) {
             ErrorManager.errorMessage(e.getMessage());
             return false;
         }
+        m_launcher.setMessage("Installation terminée avec succès !");
         return true;
     }
 }
