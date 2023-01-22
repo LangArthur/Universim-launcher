@@ -58,7 +58,7 @@ public class GameSession {
     
             launcher.launch();
         } catch (Exception e) {
-            ErrorManager.errorMessage(e.getMessage());
+            ErrorManager.errorMessage(e);
         }
     }
 

@@ -36,8 +36,9 @@ public class Launcher extends Application {
         if (!mainPage.m_isCorrectlyInit) {
             return;
         }
-        ChangelogPage changelogPage = new ChangelogPage(this);
         m_sceneController.registerScene(SceneType.MAIN, mainPage);
+        // TODO: this will change really soon.
+        ChangelogPage changelogPage = new ChangelogPage(this);
         changelogPage.setCallBack("back", new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
@@ -48,10 +49,11 @@ public class Launcher extends Application {
         m_sceneController.render();
         stage.setTitle(getLauncherTitle());
         stage.getIcons().add(getLogo());
+        logger.debug("Opening the Launcher");
     }
 
     public void launch(int ramValue) {
-
+        logger.debug("Checking local files");
         ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Verification des fichiers locaux ...");
         if (!m_filesManager.checkUpdate()) {
             ErrorManager.errorMessage("Impossible de verifier l'integrite des fichiers locaux.");
@@ -60,9 +62,10 @@ public class Launcher extends Application {
         }
         ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Lancement du client");
         try {
+            logger.debug("Launching Minecraft");
             m_session.launch(ramValue);
         } catch (Exception e) {
-            ErrorManager.errorMessage(e.getMessage());
+            ErrorManager.errorMessage(e);
         }
         Utils.sleep(1);
         m_sceneController.quit();

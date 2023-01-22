@@ -39,6 +39,8 @@ public class MainPage extends APage {
         try {
             m_root = FXMLLoader.load(getClass().getResource("/xml/login.xml"));
         } catch (Exception e) {
+            Launcher.logger.error(e.getMessage());
+            Launcher.logger.error(e.getStackTrace());
             ErrorManager.errorMessage("Impossible de charger la scene.");
         }
         m_isCorrectlyInit = true;

@@ -105,7 +105,7 @@ public class FilesManager {
         try {
             updater.update(getGameDir(FOLDER_NAME));
         } catch (Exception e) {
-            ErrorManager.errorMessage(e.getMessage());
+            ErrorManager.errorMessage(e);
             return false;
         }
         m_launcher.setMessage("Installation terminee avec succes !");
