@@ -3,6 +3,7 @@ package universim.launcher;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -33,6 +34,7 @@ public class FilesManager {
     public static String OPTIFINE_VERSION = "1.16.5_HD_U_G8";
     public static String FOLDER_NAME = ".universim";
     public static String SETTING_FILE_NAME = "optionsLauncher.txt";
+    public static String LOG_FILE = "universim.log";
 
     public FilesManager(Launcher launcher) {
         // create launcher folder
@@ -53,6 +55,25 @@ public class FilesManager {
            return Paths.get(System.getProperty("user.home") , "/Library/Application Support/", folderName);
         } else {
            return Paths.get(System.getProperty("user.home"), "/", folderName);
+        }
+    }
+
+    public static Path createLogFile() {
+        Path logPath = Paths.get(getGameDir(FOLDER_NAME).toString(), "/logs/", LOG_FILE);
+        if (!Files.exists(logPath)) {
+            createFile(logPath);
+        }
+        return logPath;
+    }
+
+    private static void createFile(Path file) {
+        try
+        {
+            Files.createDirectories(file.getParent());
+            Files.createFile(file);
+        } catch (Throwable e)
+        {
+            throw new RuntimeException("Cannot create " + file.toString() + " file.");
         }
     }
 
@@ -106,6 +127,8 @@ public class FilesManager {
             updater.update(getGameDir(FOLDER_NAME));
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
+            Launcher.logger.error(e.getMessage());
+            Launcher.logger.error(e.getStackTrace());
             return false;
         }
         m_launcher.setMessage("Installation terminee avec succes !");

@@ -43,6 +43,10 @@ public class GameSession {
     }
 
     public void launch(int ramValue) {
+        if (!m_isAuth) {
+            Launcher.logger.warn("Try to launch the launcher without being logged");
+            return;
+        }
         GameType gameType = GameType.V1_13_HIGHER_FORGE;
         try {
             gameType.setNFVD(new NewForgeVersionDiscriminator(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_serverVersion, FilesManager.FORGE_VERSION));
@@ -59,6 +63,8 @@ public class GameSession {
             launcher.launch();
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
+            Launcher.logger.error(e.getMessage());
+            Launcher.logger.error(e.getStackTrace());
         }
     }
 

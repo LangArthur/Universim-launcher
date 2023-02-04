@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -46,6 +45,7 @@ public class Launcher extends Application {
             }
         });
         m_sceneController.registerScene(SceneType.CHANGELOG, changelogPage);
+        logger.debug("All scenes are register");
         m_sceneController.render();
         stage.setTitle(getLauncherTitle());
         stage.getIcons().add(getLogo());
@@ -68,6 +68,7 @@ public class Launcher extends Application {
             ErrorManager.errorMessage(e);
         }
         Utils.sleep(1);
+        logger.debug("Quitting launcher");
         m_sceneController.quit();
     }
 
@@ -96,18 +97,26 @@ public class Launcher extends Application {
         });
     }
 
-    public static void main(String[] args) {
-        // logger gestion
-        // System.setProperty("launcherlog.txt","./launcherlog.txt");
-        launch(args);
-    }
-
     private String getLauncherTitle() {
         return m_serverName + " launcher " + m_version;
     }
 
     private Image getLogo() {
         return new Image("/images/universim_rounded_logo_32px.png");
+    }
+
+    public static void main(String[] args) {
+        // setup Logger
+        // Path log4jConfigFile = FilesManager.createLogFile();
+        // try {
+        //     ConfigurationSource source = new ConfigurationSource(new FileInputStream(log4jConfigFile));            
+        //     Configurator.initialize(null, source);
+        // } catch (Exception e) {
+        //     ErrorManager.errorMessage("Impossible de creer le fichier de log");
+        // }
+
+        // launcher
+        launch(args);
     }
 
 }
