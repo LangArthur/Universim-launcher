@@ -58,11 +58,8 @@ public class FilesManager {
         }
     }
 
-    public static Path createLogFile() {
+    public static Path getLogPath() {
         Path logPath = Paths.get(getGameDir(FOLDER_NAME).toString(), "/logs/", LOG_FILE);
-        if (!Files.exists(logPath)) {
-            createFile(logPath);
-        }
         return logPath;
     }
 

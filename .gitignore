@@ -32,4 +32,5 @@ build
 !app/libs/*/*.jar
 
 # vscode config
-.vscode/
+.vscode
+.vs

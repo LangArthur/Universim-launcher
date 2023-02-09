@@ -4,6 +4,7 @@
         <!-- <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
         </Console> -->
+        <!-- <File name="LogFile" fileName="${sys:user.home}/Application Data/.universim/universim.log" immediateFlush="false" append="true"> -->
         <File name="LogFile" fileName="universim.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>

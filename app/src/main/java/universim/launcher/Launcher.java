@@ -2,6 +2,9 @@ package universim.launcher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.Configuration;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -106,14 +109,6 @@ public class Launcher extends Application {
     }
 
     public static void main(String[] args) {
-        // setup Logger
-        // Path log4jConfigFile = FilesManager.createLogFile();
-        // try {
-        //     ConfigurationSource source = new ConfigurationSource(new FileInputStream(log4jConfigFile));            
-        //     Configurator.initialize(null, source);
-        // } catch (Exception e) {
-        //     ErrorManager.errorMessage("Impossible de creer le fichier de log");
-        // }
 
         // launcher
         launch(args);
