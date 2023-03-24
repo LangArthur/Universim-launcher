@@ -15,14 +15,14 @@ import fr.theshark34.openlauncherlib.minecraft.GameFolder;
  * minecraft session utilities
  */
 public class GameSession {
-    private String m_serverName;
     private String m_serverVersion;
+    private String m_forgeVersion;
     private AuthInfos m_authInfos;
     private boolean m_isAuth = false;
 
-    public GameSession(String serverName, String serverVersion) {
-        m_serverName = serverName;
+    public GameSession(String serverVersion, String forgeVersion) {
         m_serverVersion = serverVersion;
+        m_forgeVersion = forgeVersion;
     }
 
     public boolean auth(String username, String pwd) {
@@ -46,7 +46,7 @@ public class GameSession {
         List<String> vmArguments = Arrays.asList(formatRamArgument(ramValue));
         NoFramework launcher = new NoFramework(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_authInfos, GameFolder.FLOW_UPDATER_1_19_SUP, vmArguments, new ArrayList<>());
         try {
-            launcher.launch(m_serverVersion, "44.1.17", ModLoader.FORGE);
+            launcher.launch(m_serverVersion, m_forgeVersion, ModLoader.FORGE);
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
             Launcher.logger.error(e.getMessage());

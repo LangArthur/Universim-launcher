@@ -32,8 +32,6 @@ public class FilesManager {
     public Saver saver;
     
     // TODO: encapsulate this correctly
-    public static String FORGE_VERSION = "44.1.17";
-    public static String OPTIFINE_VERSION = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
     public static String FOLDER_NAME = ".universim";
     public static String SETTING_FILE_NAME = "optionsLauncher.txt";
     public static String LOG_FILE = "universim.log";
@@ -76,17 +74,17 @@ public class FilesManager {
         }
     }
 
-    public boolean checkUpdate() {
+    public boolean checkUpdate(String forgeVersion, String optifineVersion) {
         VanillaVersion version = new VanillaVersionBuilder().withName(m_launcher.gameVersion()).build();
         UpdaterOptions options = new UpdaterOptionsBuilder().build();
-        AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
-            .withForgeVersion(FORGE_VERSION)
-            .withOptiFine(new OptiFineInfo(OPTIFINE_VERSION, true))
+        AbstractForgeVersion aForgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
+            .withForgeVersion(forgeVersion)
+            .withOptiFine(new OptiFineInfo(optifineVersion, true))
             .build();
         FlowUpdater updater = new FlowUpdaterBuilder()
             .withVanillaVersion(version)
             .withUpdaterOptions(options)
-            .withModLoaderVersion(forgeVersion)
+            .withModLoaderVersion(aForgeVersion)
             .withProgressCallback(new IProgressCallback() {
                 @Override
                 public void update(DownloadList.DownloadInfo info) {

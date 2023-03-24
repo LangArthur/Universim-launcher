@@ -15,9 +15,11 @@ import universim.launcher.ui.MainPage;
 public class Launcher extends Application {
     private String m_serverName = "Universim";
     private String m_gameVersion = "1.19.3";
+    private String m_forgeVersion = "44.1.17";
+    private String m_optifineVersion = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
     private String m_version = "0.1.0";
 
-    private GameSession m_session = new GameSession(m_serverName, m_gameVersion);
+    private GameSession m_session = new GameSession(m_gameVersion, m_forgeVersion);
     private FilesManager m_filesManager = new FilesManager(this);
     private SceneController m_sceneController;
 
@@ -55,7 +57,7 @@ public class Launcher extends Application {
     public void launch(int ramValue) {
         logger.debug("Checking local files");
         ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Verification des fichiers locaux ...");
-        if (!m_filesManager.checkUpdate()) {
+        if (!m_filesManager.checkUpdate(m_forgeVersion, m_optifineVersion)) {
             ErrorManager.errorMessage("Impossible de verifier l'integrite des fichiers locaux.");
             ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("");
             return;
