@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.FlowUpdater.FlowUpdaterBuilder;
 import fr.flowarg.flowupdater.download.DownloadList;
@@ -27,11 +28,12 @@ import fr.theshark34.openlauncherlib.util.Saver;
  */
 public class FilesManager {
     private Launcher m_launcher;
+    private ILogger m_logger = new fr.flowarg.flowlogger.Logger("Universim", getLogPath(), true);
     public Saver saver;
     
     // TODO: encapsulate this correctly
-    public static String FORGE_VERSION = "36.2.34";
-    public static String OPTIFINE_VERSION = "1.16.5_HD_U_G8";
+    public static String FORGE_VERSION = "44.1.17";
+    public static String OPTIFINE_VERSION = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
     public static String FOLDER_NAME = ".universim";
     public static String SETTING_FILE_NAME = "optionsLauncher.txt";
     public static String LOG_FILE = "universim.log";
@@ -79,7 +81,7 @@ public class FilesManager {
         UpdaterOptions options = new UpdaterOptionsBuilder().build();
         AbstractForgeVersion forgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
             .withForgeVersion(FORGE_VERSION)
-            .withOptiFine(new OptiFineInfo(OPTIFINE_VERSION))
+            .withOptiFine(new OptiFineInfo(OPTIFINE_VERSION, true))
             .build();
         FlowUpdater updater = new FlowUpdaterBuilder()
             .withVanillaVersion(version)
@@ -113,12 +115,13 @@ public class FilesManager {
                         case MODS:
                             m_launcher.setMessage("Telechargement des mods");
                         case EXTERNAL_FILES:
-                            m_launcher.setMessage("Telechargement de fichiers externes");
+                            m_launcher.setMessage("Telechargement de fichiers externes (Forge, optifine, mods ...)");
                         default:
                             break;
                     }
                 }
             })
+            .withLogger(m_logger)
             .build();
         try {
             updater.update(getGameDir(FOLDER_NAME));

@@ -1,19 +1,15 @@
 package universim.launcher;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import fr.flowarg.openlauncherlib.NewForgeVersionDiscriminator;
+import fr.flowarg.openlauncherlib.NoFramework;
+import fr.flowarg.openlauncherlib.NoFramework.ModLoader;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
-import fr.theshark34.openlauncherlib.external.ExternalLaunchProfile;
-import fr.theshark34.openlauncherlib.external.ExternalLauncher;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
 import fr.theshark34.openlauncherlib.minecraft.GameFolder;
-import fr.theshark34.openlauncherlib.minecraft.GameInfos;
-import fr.theshark34.openlauncherlib.minecraft.GameTweak;
-import fr.theshark34.openlauncherlib.minecraft.GameType;
-import fr.theshark34.openlauncherlib.minecraft.GameVersion;
-import fr.theshark34.openlauncherlib.minecraft.MinecraftLauncher;
 
 /**
  * minecraft session utilities
@@ -47,20 +43,10 @@ public class GameSession {
             Launcher.logger.warn("Try to launch the launcher without being logged");
             return;
         }
-        GameType gameType = GameType.V1_13_HIGHER_FORGE;
+        List<String> vmArguments = Arrays.asList(formatRamArgument(ramValue));
+        NoFramework launcher = new NoFramework(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_authInfos, GameFolder.FLOW_UPDATER_1_19_SUP, vmArguments, new ArrayList<>());
         try {
-            gameType.setNFVD(new NewForgeVersionDiscriminator(FilesManager.getGameDir(FilesManager.FOLDER_NAME), m_serverVersion, FilesManager.FORGE_VERSION));
-            GameInfos infos = new GameInfos(
-                m_serverName,
-                new GameVersion(m_serverVersion, GameType.V1_13_HIGHER_FORGE),
-                new GameTweak[] {});
-            ExternalLaunchProfile profile = MinecraftLauncher.createExternalProfile(infos, GameFolder.FLOW_UPDATER, m_authInfos);
-            List<String> params = profile.getVmArgs();
-            params.add(formatRamArgument(ramValue));
-            profile.setVmArgs(params);
-            ExternalLauncher launcher = new ExternalLauncher(profile);
-    
-            launcher.launch();
+            launcher.launch(m_serverVersion, "44.1.17", ModLoader.FORGE);
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
             Launcher.logger.error(e.getMessage());

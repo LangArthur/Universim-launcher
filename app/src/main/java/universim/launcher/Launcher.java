@@ -2,9 +2,6 @@ package universim.launcher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.FileAppender;
-import org.apache.logging.log4j.core.config.Configuration;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -17,7 +14,7 @@ import universim.launcher.ui.MainPage;
 
 public class Launcher extends Application {
     private String m_serverName = "Universim";
-    private String m_gameVersion = "1.16.5";
+    private String m_gameVersion = "1.19.3";
     private String m_version = "0.1.0";
 
     private GameSession m_session = new GameSession(m_serverName, m_gameVersion);
