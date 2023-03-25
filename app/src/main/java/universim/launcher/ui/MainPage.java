@@ -95,14 +95,7 @@ public class MainPage extends APage {
         m_playButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                Task<Void> launchTask = new Task<Void>() {
-                    @Override public Void call() throws InterruptedException {
-                        playCallBack();
-                        return null;
-                    }
-                };
-                Thread launchThread = new Thread(launchTask);
-                launchThread.start();
+                playCallBack();
             }
         });
         m_ramSelector.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -113,19 +106,26 @@ public class MainPage extends APage {
     }
 
     private void playCallBack() {
-        setInfoMessage("Authentification en cours ...");
-        Pair<String, String> credentials = getCredentials();
-        Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue());
-        if (errorMsg.isPresent()) {
-            setInfoMessage(errorMsg.get());
-        } else {
-            setInfoMessage("Authentification reussie");
-            // saving some infos for next time
-            m_launcher.save(m_ramKey, m_ram);
-            m_launcher.save(m_userNameKey, credentials.getKey());
-            m_launcher.launch(m_ram);
-        }
-        m_launchLock = false;
+        Task<Void> launchTask = new Task<Void>() {
+            @Override public Void call() throws InterruptedException {
+                setInfoMessage("Authentification en cours ...");
+                Pair<String, String> credentials = getCredentials();
+                Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue());
+                if (errorMsg.isPresent()) {
+                    setInfoMessage(errorMsg.get());
+                } else {
+                    setInfoMessage("Authentification reussie");
+                    // saving some infos for next time
+                    m_launcher.save(m_ramKey, m_ram);
+                    m_launcher.save(m_userNameKey, credentials.getKey());
+                    m_launcher.launch(m_ram);
+                }
+                m_launchLock = false;
+                return null;
+            }
+        };
+        Thread launchThread = new Thread(launchTask);
+        launchThread.start();
     }
 
     private void storeUiElements() {
