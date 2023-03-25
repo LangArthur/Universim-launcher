@@ -17,7 +17,7 @@ public class Launcher extends Application {
     private String m_gameVersion = "1.19.3";
     private String m_forgeVersion = "44.1.17";
     private String m_optifineVersion = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
-    private String m_version = "0.1.0";
+    private String m_version = "0.1.0 beta";
 
     /* minecraft session */
     private GameSession m_session = new GameSession(m_gameVersion, m_forgeVersion);
@@ -76,7 +76,7 @@ public class Launcher extends Application {
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
         }
-        Utils.sleep(3);
+        Utils.sleep(5);
         logger.debug("Quitting launcher");
         m_sceneController.quit();
     }
