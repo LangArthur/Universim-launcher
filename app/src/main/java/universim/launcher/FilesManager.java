@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import fr.flowarg.flowlogger.ILogger;
 import fr.flowarg.flowupdater.FlowUpdater;
 import fr.flowarg.flowupdater.FlowUpdater.FlowUpdaterBuilder;
 import fr.flowarg.flowupdater.download.DownloadList;
@@ -28,7 +27,6 @@ import fr.theshark34.openlauncherlib.util.Saver;
  */
 public class FilesManager {
     private Launcher m_launcher;
-    private ILogger m_logger = new fr.flowarg.flowlogger.Logger("Universim", getLogPath(), true);
     public Saver saver;
     
     // TODO: encapsulate this correctly
@@ -119,14 +117,14 @@ public class FilesManager {
                     }
                 }
             })
-            .withLogger(m_logger)
+            .withLogger(Launcher.logger)
             .build();
         try {
             updater.update(getGameDir(FOLDER_NAME));
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
-            Launcher.logger.error(e.getMessage());
-            Launcher.logger.error(e.getStackTrace());
+            Launcher.logger.err(e.getMessage());
+            Launcher.logger.err(e.getStackTrace().toString());
             return false;
         }
         m_launcher.setMessage("Installation terminee avec succes !");

@@ -1,6 +1,8 @@
 package universim.launcher.ui;
 
 
+import java.util.Optional;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
@@ -39,8 +41,8 @@ public class MainPage extends APage {
         try {
             m_root = FXMLLoader.load(getClass().getResource("/xml/login.xml"));
         } catch (Exception e) {
-            Launcher.logger.error(e.getMessage());
-            Launcher.logger.error(e.getStackTrace());
+            Launcher.logger.err(e.getMessage());
+            Launcher.logger.err(e.getStackTrace().toString());
             ErrorManager.errorMessage("Impossible de charger la scene.");
         }
         m_isCorrectlyInit = true;
@@ -101,14 +103,10 @@ public class MainPage extends APage {
     private void playCallBack() {
         setInfoMessage("Authentification en cours ...");
         Pair<String, String> credentials = getCredentials();
-        boolean login = false;
-        try {
-            m_launcher.login(credentials.getKey(), credentials.getValue());
-            login = true;
-        } catch (Exception e) {
-            setInfoMessage(e.getMessage());
-        }
-        if (login) {
+        Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue());
+        if (errorMsg.isPresent()) {
+            setInfoMessage(errorMsg.get());
+        } else {
             setInfoMessage("Authentification reussie");
             m_launcher.launch(m_ram);
         }

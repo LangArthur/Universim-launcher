@@ -3,6 +3,8 @@ package universim.launcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 
 import fr.flowarg.openlauncherlib.NoFramework;
 import fr.flowarg.openlauncherlib.NoFramework.ModLoader;
@@ -23,6 +25,10 @@ public class GameSession {
     public GameSession(String serverVersion, String forgeVersion) {
         m_serverVersion = serverVersion;
         m_forgeVersion = forgeVersion;
+    }
+
+    public boolean isAuth() {
+        return m_isAuth;
     }
 
     public boolean auth(String username, String pwd) {
@@ -49,8 +55,8 @@ public class GameSession {
             launcher.launch(m_serverVersion, m_forgeVersion, ModLoader.FORGE);
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
-            Launcher.logger.error(e.getMessage());
-            Launcher.logger.error(e.getStackTrace());
+            Launcher.logger.err(e.getMessage());
+            Launcher.logger.err(e.getStackTrace().toString());
         }
     }
 

@@ -1,7 +1,6 @@
 package universim.launcher;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,6 +10,7 @@ import javafx.stage.Stage;
 import universim.launcher.SceneController.SceneType;
 import universim.launcher.ui.ChangelogPage;
 import universim.launcher.ui.MainPage;
+import fr.flowarg.flowlogger.ILogger;
 
 public class Launcher extends Application {
     private String m_serverName = "Universim";
@@ -19,12 +19,15 @@ public class Launcher extends Application {
     private String m_optifineVersion = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
     private String m_version = "0.1.0";
 
+    /* minecraft session */
     private GameSession m_session = new GameSession(m_gameVersion, m_forgeVersion);
     private FilesManager m_filesManager = new FilesManager(this);
+    /* renderer */
     private SceneController m_sceneController;
 
-    public static final Logger logger = LogManager.getLogger("Launcher");
+    public static final ILogger logger = new fr.flowarg.flowlogger.Logger("Universim", FilesManager.getLogPath(), true);
 
+    /* getters */
     String version() { return m_version; }
     String gameVersion() { return m_gameVersion; }
     String serverName() { return m_serverName; }
@@ -55,6 +58,10 @@ public class Launcher extends Application {
     }
 
     public void launch(int ramValue) {
+        if (!m_session.isAuth()) {
+            ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Veuillez entrer vos identifiants.");
+            return;
+        }
         logger.debug("Checking local files");
         ((MainPage)m_sceneController.getCurrentScene()).setInfoMessage("Verification des fichiers locaux ...");
         if (!m_filesManager.checkUpdate(m_forgeVersion, m_optifineVersion)) {
@@ -69,18 +76,19 @@ public class Launcher extends Application {
         } catch (Exception e) {
             ErrorManager.errorMessage(e);
         }
-        Utils.sleep(1);
+        Utils.sleep(3);
         logger.debug("Quitting launcher");
         m_sceneController.quit();
     }
 
-    public void login(String username, String pwd) {
+    public Optional<String> login(String username, String pwd) {
         if (username.length() == 0 || pwd.length() == 0) {
-            throw new RuntimeException("Remplissez les deux champs");
+            return Optional.of("Remplissez les deux champs");
         }
         if (!m_session.auth(username, pwd)) {
-            throw new RuntimeException("Impossible de s'authentifiez, verifiez vos identifiants.");
+            return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
         }
+        return Optional.empty();
     }
 
     public void setMessage(String msg) {
@@ -108,7 +116,6 @@ public class Launcher extends Application {
     }
 
     public static void main(String[] args) {
-
         // launcher
         launch(args);
     }
