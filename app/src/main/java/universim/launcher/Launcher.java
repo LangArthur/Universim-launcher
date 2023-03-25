@@ -107,6 +107,18 @@ public class Launcher extends Application {
         });
     }
 
+    public <T> void save(String key, int value) {
+        m_filesManager.save(key, value);
+    }
+
+    public <T> void save(String key, String value) {
+        m_filesManager.save(key, value);
+    }
+
+    public String retrieve(String key) {
+        return m_filesManager.retrieve(key);
+    }
+
     private String getLauncherTitle() {
         return m_serverName + " launcher " + m_version;
     }

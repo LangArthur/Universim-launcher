@@ -130,4 +130,20 @@ public class FilesManager {
         m_launcher.setMessage("Installation terminee avec succes !");
         return true;
     }
+
+    public void save(String key, int value) {
+        Launcher.logger.debug("Save " + key + " with value " + String.valueOf(value));
+        saver.set(key, String.valueOf(value));
+        saver.save();
+    }
+
+    public void save(String key, String value) {
+        Launcher.logger.debug("Save " + key + " with value " + value);
+        saver.set(key, value);
+        saver.save();
+    }
+
+    public String retrieve(String key) {
+        return saver.get(key);
+    }
 }
