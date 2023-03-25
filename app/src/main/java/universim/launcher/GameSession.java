@@ -75,7 +75,6 @@ public class GameSession {
         } catch (Exception e) {
             Launcher.logger.warn("sun's jvm OSMXBean is not available, using default value for ram");
         }
-        System.out.println(memoryAvailable);
         for (int memoryValue : possibleValues) {
             if (memoryValue <= memoryAvailable) {
                 availableRamValues.add(String.valueOf(memoryValue));
