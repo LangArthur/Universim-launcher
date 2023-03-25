@@ -65,6 +65,22 @@ public class GameSession {
     }
 
     public static String[] getRamValue() {
-        return new String[] { "1", "2", "4", "8", "16" };
+        int[] possibleValues = {1, 2, 4, 8, 16, 32, 64, 128};
+        ArrayList<String> availableRamValues = new ArrayList<String>();
+        long memoryAvailable = 64l; /* in GB */
+        try {
+            OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
+            com.sun.management.OperatingSystemMXBean sunOsBean = (com.sun.management.OperatingSystemMXBean)osBean;
+            memoryAvailable = sunOsBean.getTotalPhysicalMemorySize() / 1000000000;
+        } catch (Exception e) {
+            Launcher.logger.warn("sun's jvm OSMXBean is not available, using default value for ram");
+        }
+        System.out.println(memoryAvailable);
+        for (int memoryValue : possibleValues) {
+            if (memoryValue <= memoryAvailable) {
+                availableRamValues.add(String.valueOf(memoryValue));
+            }
+        }
+        return availableRamValues.toArray(new String[availableRamValues.size()]);
     }
 }
