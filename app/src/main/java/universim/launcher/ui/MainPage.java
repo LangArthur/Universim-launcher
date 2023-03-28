@@ -54,7 +54,7 @@ public class MainPage extends APage {
             ErrorManager.errorMessage("Impossible de charger la scene.");
         }
         m_isCorrectlyInit = true;
-        storeUiElements();
+        storeUiElements(launcher.isAuth());
         registerCallBacks();
         m_scene = new Scene(m_root, m_width, m_height);
         String buttonCss = getClass().getResource("/css/button.css").toExternalForm();
@@ -112,15 +112,16 @@ public class MainPage extends APage {
         Task<Void> launchTask = new Task<Void>() {
             @Override public Void call() throws InterruptedException {
                 setInfoMessage("Authentification en cours ...");
+                Boolean shoudBeRemembered = m_rememberCheckBox.isSelected();
                 Pair<String, String> credentials = getCredentials();
-                Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue());
+                Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue(), shoudBeRemembered);
                 if (errorMsg.isPresent()) {
                     setInfoMessage(errorMsg.get());
                 } else {
                     setInfoMessage("Authentification reussie");
                     // saving some infos for next time
-                    if (m_rememberCheckBox.isSelected()) {
-                        m_launcher.save(m_rememberKey, String.valueOf(m_rememberCheckBox.isSelected()));
+                    if (shoudBeRemembered) {
+                        m_launcher.save(m_rememberKey, String.valueOf(shoudBeRemembered));
                         m_launcher.save(m_ramKey, String.valueOf(m_ram));
                         m_launcher.save(m_userNameKey, credentials.getKey());
                     }
@@ -134,7 +135,7 @@ public class MainPage extends APage {
         launchThread.start();
     }
 
-    private void storeUiElements() {
+    private void storeUiElements(boolean alreadyAuth) {
         m_pwd = (PasswordField) m_root.lookup("#password");
         m_userName = (TextField) m_root.lookup("#username");
         String storedUsername = m_launcher.retrieve(m_userNameKey);
@@ -148,8 +149,10 @@ public class MainPage extends APage {
         m_ramSelector = (ComboBox<String>) m_root.lookup("#ram-selector");
         m_ramSelector.getItems().setAll(GameSession.getRamValue());
         String storedRam = m_launcher.retrieve(m_ramKey);
+        System.out.println(storedRam);
         if (storedRam != null) {
             m_ramSelector.setValue(storedRam);
+            m_ram = Integer.parseInt(storedRam);
         } else {
             m_ramSelector.setValue("1");
         }

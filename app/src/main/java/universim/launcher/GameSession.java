@@ -8,6 +8,7 @@ import java.lang.management.OperatingSystemMXBean;
 
 import fr.flowarg.openlauncherlib.NoFramework;
 import fr.flowarg.openlauncherlib.NoFramework.ModLoader;
+import fr.litarvan.openauth.microsoft.AuthTokens;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import fr.theshark34.openlauncherlib.minecraft.AuthInfos;
@@ -20,7 +21,10 @@ public class GameSession {
     private String m_serverVersion;
     private String m_forgeVersion;
     private AuthInfos m_authInfos;
+    /* if the user is currently authenticate */
     private boolean m_isAuth = false;
+    private MicrosoftAuthenticator m_authenticator = new MicrosoftAuthenticator();
+
 
     public GameSession(String serverVersion, String forgeVersion) {
         m_serverVersion = serverVersion;
@@ -31,17 +35,31 @@ public class GameSession {
         return m_isAuth;
     }
 
-    public boolean auth(String username, String pwd) {
+    public String playerUsername() {
+        return m_authInfos.getUsername();
+    }
+
+    public AuthTokens auth(String username, String pwd) {
         // use microsoft authenticator since each account should be migrated
-        MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
+        MicrosoftAuthResult rep;
         try {
-            MicrosoftAuthResult rep = authenticator.loginWithCredentials(username, pwd);
+            rep = m_authenticator.loginWithCredentials(username, pwd);
             m_authInfos = new AuthInfos(rep.getProfile().getName(), rep.getAccessToken(), rep.getProfile().getId());
         } catch (Exception e) {
-            return false;
+            return null;
         }
         m_isAuth = true;
-        return true;
+        return new AuthTokens(rep.getAccessToken(), rep.getRefreshToken());
+    }
+
+    public void authWithToken(String accessToken, String refreshToken) {
+        AuthTokens tokens = new AuthTokens(accessToken, refreshToken);
+        try {
+            m_authenticator.loginWithTokens(tokens);
+        } catch (Exception e) {
+            m_isAuth = true;
+        }
+        m_isAuth = false;
     }
 
     public void launch(int ramValue) {

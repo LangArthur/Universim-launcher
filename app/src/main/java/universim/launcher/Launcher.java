@@ -11,13 +11,14 @@ import universim.launcher.SceneController.SceneType;
 import universim.launcher.ui.ChangelogPage;
 import universim.launcher.ui.MainPage;
 import fr.flowarg.flowlogger.ILogger;
+import fr.litarvan.openauth.microsoft.AuthTokens;
 
 public class Launcher extends Application {
     private String m_serverName = "Universim";
     private String m_gameVersion = "1.19.3";
     private String m_forgeVersion = "44.1.17";
     private String m_optifineVersion = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
-    private String m_version = "0.1.0 beta";
+    private String m_version = "0.1.1 beta";
 
     /* minecraft session */
     private GameSession m_session = new GameSession(m_gameVersion, m_forgeVersion);
@@ -34,6 +35,7 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage stage) {
+        logWithToken();
         m_sceneController = new SceneController(stage);
         // load and set callbacks
         MainPage mainPage = new MainPage(this);
@@ -85,8 +87,23 @@ public class Launcher extends Application {
         if (username.length() == 0 || pwd.length() == 0) {
             return Optional.of("Remplissez les deux champs");
         }
-        if (!m_session.auth(username, pwd)) {
+        AuthTokens tokens = m_session.auth(username, pwd);
+        if (tokens == null) {
             return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
+        }
+        return Optional.empty();
+    }
+
+    public Optional<String> login(String username, String pwd, boolean savedCredentials) {
+        if (username.length() == 0 || pwd.length() == 0) {
+            return Optional.of("Remplissez les deux champs");
+        }
+        AuthTokens tokens = m_session.auth(username, pwd);
+        if (tokens == null) {
+            return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
+        } else if (savedCredentials) {
+            m_filesManager.save("accessToken", tokens.getAccessToken());
+            m_filesManager.save("refreshToken", tokens.getRefreshToken());
         }
         return Optional.empty();
     }
@@ -113,6 +130,18 @@ public class Launcher extends Application {
 
     public String retrieve(String key) {
         return m_filesManager.retrieve(key);
+    }
+
+    public boolean isAuth() {
+        return m_session.isAuth();
+    }
+
+    private void logWithToken() {
+        String accessToken = m_filesManager.retrieve("accessToken");
+        String refreshToken = m_filesManager.retrieve("refreshToken");
+        if (accessToken != null && refreshToken != null) {
+            m_session.authWithToken(accessToken, refreshToken);
+        }
     }
 
     private String getLauncherTitle() {
