@@ -27,7 +27,7 @@ import fr.theshark34.openlauncherlib.util.Saver;
  */
 public class FilesManager {
     private Launcher m_launcher;
-    public Saver saver;
+    private Saver m_saver;
     
     // TODO: encapsulate this correctly
     public static String FOLDER_NAME = ".universim";
@@ -38,7 +38,7 @@ public class FilesManager {
         // create launcher folder
         try {
             new File(getGameDir(FOLDER_NAME).toString()).mkdirs();
-            saver = new Saver(Paths.get(getGameDir(FOLDER_NAME).toString(), "/", SETTING_FILE_NAME));
+            m_saver = new Saver(Paths.get(getGameDir(FOLDER_NAME).toString(), "/", SETTING_FILE_NAME));
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -133,11 +133,15 @@ public class FilesManager {
 
     public void save(String key, String value) {
         Launcher.logger.debug("Save " + key + " with value " + value);
-        saver.set(key, value);
-        saver.save();
+        m_saver.set(key, value);
+        m_saver.save();
+    }
+
+    public void remove(String key) {
+        m_saver.remove(key);
     }
 
     public String retrieve(String key) {
-        return saver.get(key);
+        return m_saver.get(key);
     }
 }

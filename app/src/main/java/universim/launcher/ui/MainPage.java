@@ -14,10 +14,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import universim.launcher.ErrorManager;
@@ -34,6 +36,9 @@ public class MainPage extends APage {
     private ComboBox<String> m_ramSelector;
     private ProgressBar m_progressBar;
     private CheckBox m_rememberCheckBox;
+    private VBox m_loginForm;
+    private VBox m_welcomeBox;
+    private Hyperlink m_disconnectButton;
     private int m_ram = 1;
 
     private double m_width = 960;
@@ -54,8 +59,11 @@ public class MainPage extends APage {
             ErrorManager.errorMessage("Impossible de charger la scene.");
         }
         m_isCorrectlyInit = true;
-        storeUiElements(launcher.isAuth());
+        storeUiElements();
         registerCallBacks();
+        if (launcher.isAuth()) {
+            setAlreadyLog(true);
+        }
         m_scene = new Scene(m_root, m_width, m_height);
         String buttonCss = getClass().getResource("/css/button.css").toExternalForm();
         String panelCss = getClass().getResource("/css/panel.css").toExternalForm();
@@ -106,6 +114,13 @@ public class MainPage extends APage {
                 m_ram = Integer.parseInt(newValue);
             }
         });
+        m_disconnectButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                deconnectCallBack();
+            }
+        });
     }
 
     private void playCallBack() {
@@ -135,7 +150,8 @@ public class MainPage extends APage {
         launchThread.start();
     }
 
-    private void storeUiElements(boolean alreadyAuth) {
+    private void storeUiElements() {
+        m_loginForm = (VBox) m_root.lookup("#login-form");
         m_pwd = (PasswordField) m_root.lookup("#password");
         m_userName = (TextField) m_root.lookup("#username");
         String storedUsername = m_launcher.retrieve(m_userNameKey);
@@ -149,7 +165,6 @@ public class MainPage extends APage {
         m_ramSelector = (ComboBox<String>) m_root.lookup("#ram-selector");
         m_ramSelector.getItems().setAll(GameSession.getRamValue());
         String storedRam = m_launcher.retrieve(m_ramKey);
-        System.out.println(storedRam);
         if (storedRam != null) {
             m_ramSelector.setValue(storedRam);
             m_ram = Integer.parseInt(storedRam);
@@ -162,6 +177,27 @@ public class MainPage extends APage {
         Boolean remembered = Boolean.valueOf(m_launcher.retrieve(m_rememberKey));
         if (remembered != null && remembered) {
             m_rememberCheckBox.setSelected(remembered);
+        }
+        m_welcomeBox = (VBox) m_root.lookup("#logged-welcome");
+        m_disconnectButton = (Hyperlink) m_root.lookup("#disconnect-button");
+    }
+
+    private void deconnectCallBack() {
+        setAlreadyLog(false);
+        m_launcher.disconnect();
+    }
+
+    private void setAlreadyLog(boolean state) {
+        if (state) {
+            m_loginForm.getChildren().remove(0, 2);
+            VBox welcomeBox = m_welcomeBox;
+            welcomeBox.setVisible(true);
+            ((Text)welcomeBox.getChildren().get(0)).setText("Bienvenue " + m_launcher.userName());
+            m_loginForm.getChildren().add(0, welcomeBox);    
+        } else {
+            m_loginForm.getChildren().remove(0);
+            m_loginForm.getChildren().add(0, m_userName);
+            m_loginForm.getChildren().add(1, m_pwd);
         }
     }
 }

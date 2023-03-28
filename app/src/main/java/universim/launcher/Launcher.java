@@ -29,9 +29,10 @@ public class Launcher extends Application {
     public static final ILogger logger = new fr.flowarg.flowlogger.Logger("Universim", FilesManager.getLogPath(), true);
 
     /* getters */
-    String version() { return m_version; }
-    String gameVersion() { return m_gameVersion; }
-    String serverName() { return m_serverName; }
+    public String version() { return m_version; }
+    public String gameVersion() { return m_gameVersion; }
+    public String serverName() { return m_serverName; }
+    public String userName() { return m_session.playerUsername(); }
 
     @Override
     public void start(Stage stage) {
@@ -106,6 +107,12 @@ public class Launcher extends Application {
             m_filesManager.save("refreshToken", tokens.getRefreshToken());
         }
         return Optional.empty();
+    }
+
+    public void disconnect() {
+        m_session.disconnect();
+        m_filesManager.remove("accessToken");
+        m_filesManager.remove("refreshToken");
     }
 
     public void setMessage(String msg) {

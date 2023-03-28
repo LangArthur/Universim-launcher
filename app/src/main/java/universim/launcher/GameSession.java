@@ -36,30 +36,40 @@ public class GameSession {
     }
 
     public String playerUsername() {
-        return m_authInfos.getUsername();
+        return m_authInfos == null ? "Inconnu" : m_authInfos.getUsername();
     }
 
     public AuthTokens auth(String username, String pwd) {
         // use microsoft authenticator since each account should be migrated
-        MicrosoftAuthResult rep;
+        MicrosoftAuthResult authRes;
         try {
-            rep = m_authenticator.loginWithCredentials(username, pwd);
-            m_authInfos = new AuthInfos(rep.getProfile().getName(), rep.getAccessToken(), rep.getProfile().getId());
+            authRes = m_authenticator.loginWithCredentials(username, pwd);
+            m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(), authRes.getProfile().getId());
         } catch (Exception e) {
             return null;
         }
         m_isAuth = true;
-        return new AuthTokens(rep.getAccessToken(), rep.getRefreshToken());
+        return new AuthTokens(authRes.getAccessToken(), authRes.getRefreshToken());
     }
 
-    public void authWithToken(String accessToken, String refreshToken) {
-        AuthTokens tokens = new AuthTokens(accessToken, refreshToken);
+    public AuthTokens authWithToken(String accessToken, String refreshToken) {
+        MicrosoftAuthResult authRes;
         try {
-            m_authenticator.loginWithTokens(tokens);
+            authRes = m_authenticator.loginWithTokens(new AuthTokens(accessToken, refreshToken));
         } catch (Exception e) {
-            m_isAuth = true;
+            m_isAuth = false;
+            if (refreshToken != null) {
+                Launcher.logger.warn("Impossible de s'authentifier avec le refreshToken: " + e.toString());
+            }
+            return null;
         }
+        m_isAuth = true;
+        return new AuthTokens(authRes.getAccessToken(), authRes.getRefreshToken());
+    }
+
+    public void disconnect() {
         m_isAuth = false;
+        m_authInfos = null;
     }
 
     public void launch(int ramValue) {
