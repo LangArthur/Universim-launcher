@@ -107,11 +107,7 @@ public class Launcher extends Application {
         });
     }
 
-    public <T> void save(String key, int value) {
-        m_filesManager.save(key, value);
-    }
-
-    public <T> void save(String key, String value) {
+    public void save(String key, String value) {
         m_filesManager.save(key, value);
     }
 

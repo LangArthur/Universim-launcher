@@ -32,10 +32,12 @@
                     <Label>Ram allouée</Label>
                     <ComboBox id="ram-selector" promptText="ram allouée">
                     </ComboBox>
-                    <!-- <Label>Se souvenir de moi</Label>
-                    <CheckBox></CheckBox> -->
                 </HBox>
-                <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Jouer !" />
+                <HBox spacing="5" alignment="TOP_LEFT">
+                    <CheckBox id="remember-me"></CheckBox>
+                    <Label>Se souvenir de moi</Label>
+                </HBox>
+            <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Jouer !" />
             </VBox>
         </GridPane>
     </center>

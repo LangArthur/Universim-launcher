@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
@@ -32,6 +33,7 @@ public class MainPage extends APage {
     private Text m_loginInfo;
     private ComboBox<String> m_ramSelector;
     private ProgressBar m_progressBar;
+    private CheckBox m_rememberCheckBox;
     private int m_ram = 1;
 
     private double m_width = 960;
@@ -39,6 +41,7 @@ public class MainPage extends APage {
 
     private String m_ramKey = "ram";
     private String m_userNameKey = "userName";
+    private String m_rememberKey = "remember-me";
     private boolean m_launchLock = false;
 
     public MainPage(Launcher launcher) {
@@ -116,8 +119,11 @@ public class MainPage extends APage {
                 } else {
                     setInfoMessage("Authentification reussie");
                     // saving some infos for next time
-                    m_launcher.save(m_ramKey, m_ram);
-                    m_launcher.save(m_userNameKey, credentials.getKey());
+                    if (m_rememberCheckBox.isSelected()) {
+                        m_launcher.save(m_rememberKey, String.valueOf(m_rememberCheckBox.isSelected()));
+                        m_launcher.save(m_ramKey, String.valueOf(m_ram));
+                        m_launcher.save(m_userNameKey, credentials.getKey());
+                    }
                     m_launcher.launch(m_ram);
                 }
                 m_launchLock = false;
@@ -129,12 +135,14 @@ public class MainPage extends APage {
     }
 
     private void storeUiElements() {
+        m_pwd = (PasswordField) m_root.lookup("#password");
         m_userName = (TextField) m_root.lookup("#username");
         String storedUsername = m_launcher.retrieve(m_userNameKey);
         if (storedUsername != null) {
             m_userName.setText(storedUsername);
+            m_userName.setFocusTraversable(false);
+            m_pwd.setFocusTraversable(true);
         }
-        m_pwd = (PasswordField) m_root.lookup("#password");
         m_playButton = (Button) m_root.lookup("#launch");
         m_loginInfo = (Text) m_root.lookup("#login-info");
         m_ramSelector = (ComboBox<String>) m_root.lookup("#ram-selector");
@@ -147,5 +155,10 @@ public class MainPage extends APage {
         }
         m_progressBar = (ProgressBar) m_root.lookup("#launching-status-bar");
         m_progressBar.setProgress(0);
+        m_rememberCheckBox = (CheckBox) m_root.lookup("#remember-me");
+        Boolean remembered = Boolean.valueOf(m_launcher.retrieve(m_rememberKey));
+        if (remembered != null && remembered) {
+            m_rememberCheckBox.setSelected(remembered);
+        }
     }
 }

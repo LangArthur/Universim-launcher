@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.1.1 (beta)
+
+Features:
+- remeber-me checkbox
+- fast-login by pressing enter directly
+
 ## 0.1.0 (beta)
 
 Features:

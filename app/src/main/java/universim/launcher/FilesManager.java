@@ -131,12 +131,6 @@ public class FilesManager {
         return true;
     }
 
-    public void save(String key, int value) {
-        Launcher.logger.debug("Save " + key + " with value " + String.valueOf(value));
-        saver.set(key, String.valueOf(value));
-        saver.save();
-    }
-
     public void save(String key, String value) {
         Launcher.logger.debug("Save " + key + " with value " + value);
         saver.set(key, value);
