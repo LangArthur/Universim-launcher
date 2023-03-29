@@ -16,6 +16,10 @@ plugins {
     id 'java'
 }
 
+version = '0.1.0'
+group = 'com.ergenor.universim-launcher' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'Universim'
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -34,13 +38,17 @@ dependencies {
     implementation 'fr.flowarg:flowupdater:1.7.4'
 }
 
-version = '0.1.0'
-group = 'com.ergenor.universim-launcher' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'Universim'
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-javadoc.options.encoding = 'utf-8'
-compileJava.options.encoding = 'utf-8'
-compileTestJava.options.encoding = 'utf-8'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+compileJava {
+    options.encoding = 'utf-8'
+    targetCompatibility = sourceCompatibility = JavaVersion.VERSION_17
+}
+
 sourceSets.main.java.srcDirs = ['src']
 
 // Define the main class for the application.
@@ -49,14 +57,10 @@ application {
 }
 
 jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes(
             'Main-Class': 'universim.launcher.Main'
         )
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
@@ -65,6 +69,5 @@ javafx {
 }
 
 shadowJar {
-    // minimize()
-    classifier = null
+    classifier = ''
 }
