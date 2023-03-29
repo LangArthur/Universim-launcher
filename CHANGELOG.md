@@ -5,6 +5,7 @@
 Features:
 - remeber-me checkbox
 - fast-login by pressing enter directly
+- auto login via refresh token
 
 ## 0.1.0 (beta)
 

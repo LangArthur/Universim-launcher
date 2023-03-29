@@ -103,7 +103,6 @@ public class Launcher extends Application {
         if (tokens == null) {
             return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
         } else if (savedCredentials) {
-            m_filesManager.save("accessToken", tokens.getAccessToken());
             m_filesManager.save("refreshToken", tokens.getRefreshToken());
         }
         return Optional.empty();
@@ -111,7 +110,6 @@ public class Launcher extends Application {
 
     public void disconnect() {
         m_session.disconnect();
-        m_filesManager.remove("accessToken");
         m_filesManager.remove("refreshToken");
     }
 
@@ -147,6 +145,7 @@ public class Launcher extends Application {
         String refreshToken = m_filesManager.retrieve("refreshToken");
         if (refreshToken != null) {
             AuthTokens tokens = m_session.refreshToken(refreshToken);
+            m_filesManager.save("refreshToken", tokens.getRefreshToken());
         }
     }
 

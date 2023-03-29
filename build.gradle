@@ -59,7 +59,7 @@ jar {
 }
 
 javafx {
-    modules = ['javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.base', 'javafx.graphics', 'javafx.fxml', 'javafx.swing', 'javafx.web']
 }
 
 shadowJar {

@@ -43,7 +43,10 @@ public class GameSession {
         // use microsoft authenticator since each account should be migrated
         MicrosoftAuthResult authRes;
         try {
-            authRes = m_authenticator.loginWithCredentials(username, pwd);
+            System.out.println("before");
+            authRes = m_authenticator.loginWithWebview();
+            System.out.println("after");
+            // authRes = m_authenticator.loginWithCredentials(username, pwd);
             m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(),
                                         authRes.getProfile().getId(), authRes.getXuid(), authRes.getClientId());
         } catch (Exception e) {
