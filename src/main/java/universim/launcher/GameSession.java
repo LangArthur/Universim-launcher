@@ -44,7 +44,8 @@ public class GameSession {
         MicrosoftAuthResult authRes;
         try {
             authRes = m_authenticator.loginWithCredentials(username, pwd);
-            m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(), authRes.getProfile().getId());
+            m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(),
+                                        authRes.getProfile().getId(), authRes.getXuid(), authRes.getClientId());
         } catch (Exception e) {
             return null;
         }
@@ -52,10 +53,12 @@ public class GameSession {
         return new AuthTokens(authRes.getAccessToken(), authRes.getRefreshToken());
     }
 
-    public AuthTokens authWithToken(String accessToken, String refreshToken) {
+    public AuthTokens refreshToken(String refreshToken) {
         MicrosoftAuthResult authRes;
         try {
-            authRes = m_authenticator.loginWithTokens(new AuthTokens(accessToken, refreshToken));
+            authRes = m_authenticator.loginWithRefreshToken(refreshToken);
+            m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(),
+                                        authRes.getProfile().getId(), authRes.getXuid(), authRes.getClientId());
         } catch (Exception e) {
             m_isAuth = false;
             if (refreshToken != null) {

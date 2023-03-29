@@ -144,10 +144,9 @@ public class Launcher extends Application {
     }
 
     private void logWithToken() {
-        String accessToken = m_filesManager.retrieve("accessToken");
         String refreshToken = m_filesManager.retrieve("refreshToken");
-        if (accessToken != null && refreshToken != null) {
-            m_session.authWithToken(accessToken, refreshToken);
+        if (refreshToken != null) {
+            AuthTokens tokens = m_session.refreshToken(refreshToken);
         }
     }
 

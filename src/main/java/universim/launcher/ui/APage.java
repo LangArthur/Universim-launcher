@@ -14,10 +14,10 @@ public abstract class APage implements IPage {
 
     public APage(Launcher launcher) {
         m_launcher = launcher;
-        try {
-            m_layout = FXMLLoader.load(getClass().getResource("xml/base.xml"));            
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
+        // try {
+        //     m_layout = FXMLLoader.load(getClass().getResource("xml/base.xml"));            
+        // } catch (Exception e) {
+        //     // TODO: handle exception
+        // }
     }
 }
