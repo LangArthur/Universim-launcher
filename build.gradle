@@ -16,7 +16,7 @@ plugins {
     id 'java-library'
 }
 
-version = '0.1.1-beta'
+version = '0.2.0'
 group = 'com.ergenor.universim-launcher' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Universim'
 

@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 0.1.1 (beta)
+## 0.2.0 (beta)
 
 Features:
 - remeber-me checkbox
