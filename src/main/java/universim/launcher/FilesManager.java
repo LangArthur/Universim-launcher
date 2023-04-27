@@ -3,7 +3,6 @@ package universim.launcher;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -59,17 +58,6 @@ public class FilesManager {
     public static Path getLogPath() {
         Path logPath = Paths.get(getGameDir(FOLDER_NAME).toString(), "/logs/", LOG_FILE);
         return logPath;
-    }
-
-    private static void createFile(Path file) {
-        try
-        {
-            Files.createDirectories(file.getParent());
-            Files.createFile(file);
-        } catch (Throwable e)
-        {
-            throw new RuntimeException("Cannot create " + file.toString() + " file.");
-        }
     }
 
     public boolean checkUpdate(String forgeVersion, String optifineVersion) {
@@ -132,7 +120,7 @@ public class FilesManager {
     }
 
     public void save(String key, String value) {
-        Launcher.logger.debug("Save " + key + " with value " + value);
+        Launcher.logger.debug("Save " + key);
         m_saver.set(key, value);
         m_saver.save();
     }

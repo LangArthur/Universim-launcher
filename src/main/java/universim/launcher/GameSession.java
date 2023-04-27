@@ -39,14 +39,11 @@ public class GameSession {
         return m_authInfos == null ? "Inconnu" : m_authInfos.getUsername();
     }
 
-    public AuthTokens auth(String username, String pwd) {
+    public AuthTokens auth() {
         // use microsoft authenticator since each account should be migrated
         MicrosoftAuthResult authRes;
         try {
-            System.out.println("before");
             authRes = m_authenticator.loginWithWebview();
-            System.out.println("after");
-            // authRes = m_authenticator.loginWithCredentials(username, pwd);
             m_authInfos = new AuthInfos(authRes.getProfile().getName(), authRes.getAccessToken(),
                                         authRes.getProfile().getId(), authRes.getXuid(), authRes.getClientId());
         } catch (Exception e) {

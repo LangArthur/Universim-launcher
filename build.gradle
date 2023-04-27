@@ -30,7 +30,7 @@ repositories {
 
 dependencies {
     implementation 'fr.flowarg:openlauncherlib:3.2.+'
-    implementation 'com.github.Litarvan:OpenAuth:518589d222'
+    implementation 'com.github.Litarvan:OpenAuth:fd5d5cd954'
     implementation 'fr.flowarg:flowupdater:1.7.+'
 }
 

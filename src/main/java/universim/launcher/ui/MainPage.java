@@ -1,6 +1,5 @@
 package universim.launcher.ui;
 
-
 import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
@@ -15,13 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 import universim.launcher.ErrorManager;
 import universim.launcher.GameSession;
 import universim.launcher.Launcher;
@@ -30,14 +25,11 @@ public class MainPage extends APage {
 
     private Button m_playButton;
     private Parent m_root;
-    private TextField m_userName;
-    private PasswordField m_pwd;
     private Text m_loginInfo;
+    private Text m_welcomeText;
     private ComboBox<String> m_ramSelector;
     private ProgressBar m_progressBar;
     private CheckBox m_rememberCheckBox;
-    private VBox m_loginForm;
-    private VBox m_welcomeBox;
     private Hyperlink m_disconnectButton;
     private int m_ram = 1;
 
@@ -45,7 +37,6 @@ public class MainPage extends APage {
     private double m_height = 720;
 
     private String m_ramKey = "ram";
-    private String m_userNameKey = "userName";
     private String m_rememberKey = "remember-me";
     private boolean m_launchLock = false;
 
@@ -61,9 +52,7 @@ public class MainPage extends APage {
         m_isCorrectlyInit = true;
         storeUiElements();
         registerCallBacks();
-        if (launcher.isAuth()) {
-            setAlreadyLog(true);
-        }
+        setWelcomeText(launcher.isAuth());
         m_scene = new Scene(m_root, m_width, m_height);
         String buttonCss = getClass().getResource("/css/button.css").toExternalForm();
         String panelCss = getClass().getResource("/css/panel.css").toExternalForm();
@@ -80,10 +69,6 @@ public class MainPage extends APage {
 
     public Scene getScene() {
         return m_scene;
-    }
-
-    public Pair<String, String> getCredentials() {
-        return new Pair<String,String>(m_userName.getText(), m_pwd.getText());
     }
 
     public void setInfoMessage(String msg) {
@@ -128,18 +113,15 @@ public class MainPage extends APage {
             @Override public Void call() throws InterruptedException {
                 setInfoMessage("Authentification en cours ...");
                 Boolean shoudBeRemembered = m_rememberCheckBox.isSelected();
-                Pair<String, String> credentials = getCredentials();
-                Optional<String> errorMsg = m_launcher.login(credentials.getKey(), credentials.getValue(), shoudBeRemembered);
+                Optional<String> errorMsg = m_launcher.login(shoudBeRemembered);
                 if (errorMsg.isPresent()) {
                     setInfoMessage(errorMsg.get());
                 } else {
                     setInfoMessage("Authentification reussie");
-                    // saving some infos for next time
-                    if (shoudBeRemembered) {
-                        m_launcher.save(m_rememberKey, String.valueOf(shoudBeRemembered));
-                        m_launcher.save(m_ramKey, String.valueOf(m_ram));
-                        m_launcher.save(m_userNameKey, credentials.getKey());
-                    }
+                    setWelcomeText(true);
+                    // saving ram value for next time
+                    m_launcher.save(m_rememberKey, String.valueOf(shoudBeRemembered));
+                    m_launcher.save(m_ramKey, String.valueOf(m_ram));
                     m_launcher.launch(m_ram);
                 }
                 m_launchLock = false;
@@ -151,17 +133,9 @@ public class MainPage extends APage {
     }
 
     private void storeUiElements() {
-        m_loginForm = (VBox) m_root.lookup("#login-form");
-        m_pwd = (PasswordField) m_root.lookup("#password");
-        m_userName = (TextField) m_root.lookup("#username");
-        String storedUsername = m_launcher.retrieve(m_userNameKey);
-        if (storedUsername != null) {
-            m_userName.setText(storedUsername);
-            m_userName.setFocusTraversable(false);
-            m_pwd.setFocusTraversable(true);
-        }
         m_playButton = (Button) m_root.lookup("#launch");
         m_loginInfo = (Text) m_root.lookup("#login-info");
+        m_welcomeText = (Text) m_root.lookup("#welcome-text");
         m_ramSelector = (ComboBox<String>) m_root.lookup("#ram-selector");
         m_ramSelector.getItems().setAll(GameSession.getRamValue());
         String storedRam = m_launcher.retrieve(m_ramKey);
@@ -178,26 +152,24 @@ public class MainPage extends APage {
         if (remembered != null && remembered) {
             m_rememberCheckBox.setSelected(remembered);
         }
-        m_welcomeBox = (VBox) m_root.lookup("#logged-welcome");
         m_disconnectButton = (Hyperlink) m_root.lookup("#disconnect-button");
     }
 
     private void deconnectCallBack() {
-        setAlreadyLog(false);
+        setWelcomeText(false);
         m_launcher.disconnect();
     }
 
-    private void setAlreadyLog(boolean state) {
-        if (state) {
-            m_loginForm.getChildren().remove(0, 2);
-            VBox welcomeBox = m_welcomeBox;
-            welcomeBox.setVisible(true);
-            ((Text)welcomeBox.getChildren().get(0)).setText("Bienvenue " + m_launcher.userName());
-            m_loginForm.getChildren().add(0, welcomeBox);    
+    private void setWelcomeText(boolean isLogged) {
+        String welcomeText = "Bienvenue ";
+        if (isLogged) {
+            m_welcomeText.setText(welcomeText + m_launcher.userName());
+            m_disconnectButton.setVisible(true);
+            m_playButton.setText("Jouer !");
         } else {
-            m_loginForm.getChildren().remove(0);
-            m_loginForm.getChildren().add(0, m_userName);
-            m_loginForm.getChildren().add(1, m_pwd);
+            m_welcomeText.setText(welcomeText + "! Veuillez vous connectez.");
+            m_disconnectButton.setVisible(false);
+            m_playButton.setText("Se connecter");
         }
     }
 }

@@ -18,16 +18,12 @@
                 </image>
             </ImageView>
             <VBox id="login-form" styleClass="form-box" prefHeight="160.0" prefWidth="320.0" spacing="7" GridPane.rowIndex="1">
-                <TextField id="username" promptText="Identifiant">
-                    <tooltip>
-                        <Tooltip text="Votre pseudo Minecraft ou l'email de votre compte Microsoft." />
-                     </tooltip> 
-                </TextField>
-                <PasswordField id="password" promptText="Mot de passe">
-                    <tooltip>
-                        <Tooltip text="Votre mot de passe." />
-                     </tooltip> 
-                </PasswordField>
+                <VBox id="welcome-box" alignment="TOP_CENTER">
+                    <Text id="welcome-text" styleClass="header">
+                        Bienvenue ! Veuillez vous connecter.
+                    </Text>
+                    <Hyperlink id="disconnect-button" styleClass="link" visible="false">se déconnecter</Hyperlink>
+                </VBox>
                 <HBox spacing="5" alignment="TOP_RIGHT">
                     <Label>Ram allouée</Label>
                     <ComboBox id="ram-selector" promptText="ram allouée">
@@ -37,7 +33,7 @@
                     <CheckBox id="remember-me"></CheckBox>
                     <Label>Se souvenir de moi</Label>
                 </HBox>
-            <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Jouer !" />
+                <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" alignment="CENTER" />
             </VBox>
         </GridPane>
     </center>
@@ -49,10 +45,4 @@
             <ProgressBar id="launching-status-bar" prefWidth="1920" styleClass="progress-bar"></ProgressBar>
         </VBox>
     </bottom>
-    <VBox id="logged-welcome" alignment="TOP_CENTER" visible="false">
-        <Text id="logged-welcome-text" styleClass="header">
-            Bienvenue [username] !
-        </Text>
-        <Hyperlink id="disconnect-button" styleClass="link">se déconnecter</Hyperlink>
-    </VBox>
 </BorderPane>

@@ -84,22 +84,8 @@ public class Launcher extends Application {
         m_sceneController.quit();
     }
 
-    public Optional<String> login(String username, String pwd) {
-        if (username.length() == 0 || pwd.length() == 0) {
-            return Optional.of("Remplissez les deux champs");
-        }
-        AuthTokens tokens = m_session.auth(username, pwd);
-        if (tokens == null) {
-            return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
-        }
-        return Optional.empty();
-    }
-
-    public Optional<String> login(String username, String pwd, boolean savedCredentials) {
-        if (username.length() == 0 || pwd.length() == 0) {
-            return Optional.of("Remplissez les deux champs");
-        }
-        AuthTokens tokens = m_session.auth(username, pwd);
+    public Optional<String> login(boolean savedCredentials) {
+        AuthTokens tokens = m_session.auth();
         if (tokens == null) {
             return Optional.of("Impossible de s'authentifiez, verifiez vos identifiants.");
         } else if (savedCredentials) {
