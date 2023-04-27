@@ -113,15 +113,19 @@ public class MainPage extends APage {
             @Override public Void call() throws InterruptedException {
                 setInfoMessage("Authentification en cours ...");
                 Boolean shoudBeRemembered = m_rememberCheckBox.isSelected();
-                Optional<String> errorMsg = m_launcher.login(shoudBeRemembered);
-                if (errorMsg.isPresent()) {
-                    setInfoMessage(errorMsg.get());
+                if (!m_launcher.isAuth()) {
+                    Optional<String> errorMsg = m_launcher.login(shoudBeRemembered);
+                    if (errorMsg.isPresent()) {
+                        setInfoMessage(errorMsg.get());
+                    } else {
+                        setInfoMessage("Authentification reussie");
+                        setWelcomeText(true);
+                        // saving ram value for next time
+                        m_launcher.save(m_rememberKey, String.valueOf(shoudBeRemembered));
+                        m_launcher.save(m_ramKey, String.valueOf(m_ram));
+                        m_launcher.launch(m_ram);
+                    }
                 } else {
-                    setInfoMessage("Authentification reussie");
-                    setWelcomeText(true);
-                    // saving ram value for next time
-                    m_launcher.save(m_rememberKey, String.valueOf(shoudBeRemembered));
-                    m_launcher.save(m_ramKey, String.valueOf(m_ram));
                     m_launcher.launch(m_ram);
                 }
                 m_launchLock = false;
