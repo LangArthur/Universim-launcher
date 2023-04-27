@@ -7,6 +7,12 @@ Features:
 - fast-login by pressing enter directly
 - auto login via refresh token
 
+Changes:
+- switch login method from user and password inputed by the user, to microsoft webview
+
+Fixes:
+- the launcher should handle more Java version
+
 ## 0.1.0 (beta)
 
 Features:
