@@ -3,7 +3,7 @@ Official launcher for the Universim minecraft server.
 
 Universim is a role play Minecraft french server. Join our [discord](https://discord.gg/JCuBmFwNN8) for more informations!
 
-> :warning: **Note**: This project is still in beta.
+> :warning: This project is still in beta.
 
 ## Features to come :
 
