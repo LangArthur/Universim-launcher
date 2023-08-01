@@ -165,13 +165,12 @@ public class MainPage extends APage {
     }
 
     private void setWelcomeText(boolean isLogged) {
-        String welcomeText = "Bienvenue ";
         if (isLogged) {
-            m_welcomeText.setText(welcomeText + m_launcher.userName());
+            m_welcomeText.setText(m_launcher.userName());
             m_disconnectButton.setVisible(true);
             m_playButton.setText("Jouer !");
         } else {
-            m_welcomeText.setText(welcomeText + "! Veuillez vous connectez.");
+            m_welcomeText.setText("Veuillez vous connecter.");
             m_disconnectButton.setVisible(false);
             m_playButton.setText("Se connecter");
         }

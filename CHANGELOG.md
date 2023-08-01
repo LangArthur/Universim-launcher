@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.2.1 (beta)
+
+Changes:
+- rework login interface with more centered elements
+
+Fixes:
+- update FlowUpdater to 1.8
+- change optifine version from preview to released
+
 ## 0.2.0 (beta)
 
 Features:

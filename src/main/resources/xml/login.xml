@@ -17,23 +17,29 @@
                   <Image url="@/images/universim_rounded_logo.png"/>
                 </image>
             </ImageView>
-            <VBox id="login-form" styleClass="form-box" prefHeight="160.0" prefWidth="320.0" spacing="7" GridPane.rowIndex="1">
+            <VBox id="login-form" styleClass="form-box" prefHeight="160.0" prefWidth="420.0" spacing="7" GridPane.rowIndex="1">
                 <VBox id="welcome-box" alignment="TOP_CENTER">
-                    <Text id="welcome-text" styleClass="header">
-                        Bienvenue ! Veuillez vous connecter.
+                    <Text styleClass="header">
+                        Bienvenue !
+                    </Text>
+                    <Text styleClass="header" id="welcome-text">
                     </Text>
                     <Hyperlink id="disconnect-button" styleClass="link" visible="false">se déconnecter</Hyperlink>
                 </VBox>
-                <HBox spacing="5" alignment="TOP_RIGHT">
-                    <Label>Ram allouée</Label>
-                    <ComboBox id="ram-selector" promptText="ram allouée">
-                    </ComboBox>
+                <HBox prefWidth="380.0" spacing="70" alignment="CENTER">
+                    <HBox spacing="5" alignment="CENTER_RIGHT">
+                        <Label>Ram allouée</Label>
+                        <ComboBox id="ram-selector" promptText="ram allouée">
+                        </ComboBox>
+                    </HBox>
+                    <HBox spacing="5" alignment="CENTER_LEFT">
+                        <CheckBox id="remember-me"></CheckBox>
+                        <Label>Se souvenir de moi</Label>
+                    </HBox>
                 </HBox>
-                <HBox spacing="5" alignment="TOP_LEFT">
-                    <CheckBox id="remember-me"></CheckBox>
-                    <Label>Se souvenir de moi</Label>
+                <HBox alignment="CENTER">
+                    <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" alignment="CENTER" />
                 </HBox>
-                <Button styleClass="rounded-button" id="launch" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" alignment="CENTER" />
             </VBox>
         </GridPane>
     </center>

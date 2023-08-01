@@ -16,8 +16,8 @@ import fr.litarvan.openauth.microsoft.AuthTokens;
 public class Launcher extends Application {
     private String m_serverName = "Universim";
     private String m_gameVersion = "1.19.3";
-    private String m_forgeVersion = "44.1.17";
-    private String m_optifineVersion = "preview_OptiFine_1.19.3_HD_U_I2_pre5";
+    private String m_forgeVersion = "44.1.23";
+    private String m_optifineVersion = "OptiFine_1.19.3_HD_U_I3";
     private String m_version = "0.2.0 beta";
 
     /* minecraft session */

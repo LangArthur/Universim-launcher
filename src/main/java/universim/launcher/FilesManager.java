@@ -17,6 +17,7 @@ import fr.flowarg.flowupdater.utils.UpdaterOptions;
 import fr.flowarg.flowupdater.utils.UpdaterOptions.UpdaterOptionsBuilder;
 import fr.flowarg.flowupdater.versions.AbstractForgeVersion;
 import fr.flowarg.flowupdater.versions.ForgeVersionBuilder;
+import fr.flowarg.flowupdater.versions.ForgeVersionType;
 import fr.flowarg.flowupdater.versions.VanillaVersion;
 import fr.flowarg.flowupdater.versions.VanillaVersion.VanillaVersionBuilder;
 import fr.theshark34.openlauncherlib.util.Saver;
@@ -63,9 +64,9 @@ public class FilesManager {
     public boolean checkUpdate(String forgeVersion, String optifineVersion) {
         VanillaVersion version = new VanillaVersionBuilder().withName(m_launcher.gameVersion()).build();
         UpdaterOptions options = new UpdaterOptionsBuilder().build();
-        AbstractForgeVersion aForgeVersion = new ForgeVersionBuilder(ForgeVersionBuilder.ForgeVersionType.NEW)
+        AbstractForgeVersion aForgeVersion = new ForgeVersionBuilder(ForgeVersionType.NEW)
             .withForgeVersion(forgeVersion)
-            .withOptiFine(new OptiFineInfo(optifineVersion, true))
+            .withOptiFine(new OptiFineInfo(optifineVersion))
             .build();
         FlowUpdater updater = new FlowUpdaterBuilder()
             .withVanillaVersion(version)
